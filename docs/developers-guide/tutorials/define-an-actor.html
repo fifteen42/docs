@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Query using an actor :: 互联网计算机开发者文档</title>
+    <title>使用actor查询 :: 互联网计算机开发者文档</title>
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/search.css">
@@ -607,53 +607,54 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Query using an actor</h1>
+<h1 class="page">使用actor查询</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In the <a href="../../quickstart/quickstart-intro.html">Quick start</a>, you had your first look at a simple canister for the 互联网计算机 involving an actor object and asynchronous messaging.
-As the next step in learning to write canisters that take advantage of actor-based messaging, this tutorial illustrates how to modify a traditional <code>Hello, World!</code> canister to define an actor, then deploy and test your canister on a local canister execution environment.</p>
+<p>在<a href="../../quickstart/quickstart-intro.html">快速开始</a>章节中, 已经了解过一个使用了actor对象和异步消息的简单应用。</p>
+</div>
+<div class="paragraph">
+<p>接下来的教程中，会写一个使用基于actor的消息的应用。本篇教程会讲解如何修改Hello，World！应用来定义一个actor并在本地网络部署测试。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_before_you_begin"><a class="anchor" href="#_before_you_begin"></a>Before you begin</h2>
+<h2 id="_开始之前"><a class="anchor" href="#_开始之前"></a>开始之前</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before starting the tutorial, verify the following:</p>
+<p>开始前，需要检查下面的问题：</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>You have downloaded and installed the DFINITY Canister SDK package as described in <a href="../../quickstart/local-quickstart.html#download-and-install">Download and install</a>.</p>
+<p>已经按照 <a href="../../quickstart/local-quickstart.html#download-and-install">下载与安装</a>章节的步骤下载并安装了DFINITY Canister SDK。</p>
 </li>
 <li>
-<p>You have stopped any local canister execution environment processes</p>
+<p>本地电脑上已经关闭了ICP网络进程。</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>This tutorial takes approximately 20 minutes to complete.</p>
+<p>本篇教程需要大概20分钟。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_new_project"><a class="anchor" href="#_create_a_new_project"></a>Create a new project</h2>
+<h2 id="_创建新项目"><a class="anchor" href="#_创建新项目"></a>创建新项目</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To create a new project for this tutorial:</p>
+<p>创建项目步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a terminal shell on your local computer, if you don’t already
-have one open.</p>
+<p>打开终端</p>
 </li>
 <li>
-<p>Change to the folder you are using for your 互联网计算机 projects, if you are using one.</p>
+<p>进入工作目录</p>
 </li>
 <li>
-<p>Create a new project by running the following command:</p>
+<p>运行下面的命令来创建项目</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx new actor_hello</code></pre>
@@ -661,7 +662,7 @@ have one open.</p>
 </div>
 </li>
 <li>
-<p>Change to your project directory by running the following command:</p>
+<p>进入项目目录</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd actor_hello</code></pre>
@@ -676,38 +677,40 @@ have one open.</p>
 <h2 id="_modify_the_default_configuration"><a class="anchor" href="#_modify_the_default_configuration"></a>Modify the default configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In the <a href="explore-templates.html">Exploring the default project</a> tutorial, you saw that creating a new project adds a default <code>dfx.json</code> configuration file to your project directory.
-In this tutorial, you need to modify a few of the default settings to reflect your project.</p>
+<p>在 <a href="explore-templates.html">探索默认项目</a>章节中, ，已经介绍了创建新项目会添加一个dfx.json配置文件到项目目录。</p>
 </div>
 <div class="paragraph">
-<p>To modify the <code>dfx.json</code> configuration file:</p>
+<p>在本章节中，需要修改一些默认配置。</p>
+</div>
+<div class="paragraph">
+<p>dfx.json配置修改步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>dfx.json</code> configuration file in a text editor.</p>
+<p>在编辑器中，打开 dfx.json 配置文件。</p>
 </li>
 <li>
-<p>Check the default settings for the <code>actor_hello</code> project.</p>
+<p>查看actor_hello项目中的默认配置。</p>
 </li>
 <li>
-<p>Notice that the names and paths to source and output files all use the <code>actor_hello</code> project name.</p>
+<p>注意源码的名称和路径以及输出文件都使用actor_hello项目名称。</p>
 <div class="paragraph">
-<p>For example, the default canister smart contract name is <code>actor_hello</code> and the default path to the main code file is <code>src/actor_hello/main.mo</code>.</p>
+<p>例如，默认的canister名称是actor_hello并且默认的主程序路径是 src/actor_hello/main.mo.</p>
 </div>
 <div class="paragraph">
-<p>You can rename any of these files or directories.
-If you make any changes, however, be sure that the names you use for your files and directories on the file system match the names you specify in the <code>dfx.json</code> configuration file.
-If you plan to use the default directory and file names, no changes are necessary.</p>
+<p>这些文件和目录可以重命名，但是要确保这些文件和目录的名称和dfx.json配置文件中的一
+致。
+如果使用默认的目录和文件名称，则无需修改。</p>
 </div>
 </li>
 <li>
-<p>Remove all of the <code>actor_hello_assets</code> configuration settings from the file.</p>
+<p>删除所有的actor_hello_assets配置。</p>
 <div class="paragraph">
-<p>The sample canister for this tutorial doesn&#8217;t use any front-end assets, so you can remove those settings from the configuration file.</p>
+<p>本章节的示例程序无需使用如何前端资源，因此可以删除这些配置。</p>
 </div>
 <div class="paragraph">
-<p>For example, the configuration file looks like this after you remove the <code>actor_hello_assets</code> section:</p>
+<p>以下是删除actor_hello_assets配置后的示例配置。</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -736,26 +739,28 @@ If you plan to use the default directory and file names, no changes are necessar
 </div>
 </li>
 <li>
-<p>Save your changes and close the file to continue.</p>
+<p>保存并关闭配置文件继续。</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_default_canister"><a class="anchor" href="#_modify_the_default_canister"></a>Modify the default canister</h2>
+<h2 id="_修改默认程序"><a class="anchor" href="#_修改默认程序"></a>修改默认程序</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In the <a href="explore-templates.html">Exploring the default project</a> tutorial, you saw that creating a new project creates a default <code>src</code> directory with a template <code>main.mo</code> file.
-In this tutorial, you modify the template code to create a simple "Hello, World!" canister. by defining an actor in Motoko. In Motoko,  an 互联网计算机 canister is representeded as a Motoko actor.</p>
+<p>在<a href="explore-templates.html">探索默认项目</a> 章节，已经介绍了创建新项目会创建一个默认的src目录，并包含一个main.mo程序模板文件。</p>
 </div>
 <div class="paragraph">
-<p>To modify the default template source code:</p>
+<p>在本章节中，可以修改模板代码创建一个简单的使用actor的"Hello, World!"程序</p>
+</div>
+<div class="paragraph">
+<p>源码修改步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Change to the source code directory for your project by running the following command:</p>
+<p>进入项目目录：</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd src/actor_hello</code></pre>
@@ -763,14 +768,16 @@ In this tutorial, you modify the template code to create a simple "Hello, World!
 </div>
 </li>
 <li>
-<p>Open the template <code>main.mo</code> file in a text editor and delete the existing content.</p>
+<p>编辑器中打开main.mo文件</p>
 <div class="paragraph">
-<p>The next step is to write a canister that prints a statement like the traditional "Hello, World!" sample canister.
-To compile the canister for the 互联网计算机, however, your Motoko code must define an <code>actor</code>.</p>
+<p>接下来会编写一个可以输出"Hello, World!"的示例程序。</p>
+</div>
+<div class="paragraph">
+<p>为了编译后的程序在ICP上运行，您的程序必须包含一个具有公共函数的 actor 对象。</p>
 </div>
 </li>
 <li>
-<p>Copy and paste the following sample code into the <code>main.mo</code> file:</p>
+<p>复制粘贴以下示例代码到main.mo文件</p>
 <div class="listingblock copy">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-motoko hljs" data-lang="motoko">import Debug "mo:base/Debug";
@@ -782,62 +789,65 @@ actor HelloActor {
 </div>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s take a closer look at this Motoko actor defining our canister:</p>
+<p>代码解析</p>
 </div>
 <div class="openblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>The code imports a <code>Debug</code> module to provide the <code>print</code> functionality.</p>
+<p>程序导入Debug模块来提供print功能</p>
 </li>
 <li>
-<p>The actor uses the <code>public query func</code> declaration to define an 互联网计算机 <em>query</em> method.  Our method doesn&#8217;t need to make any permanent changes to the state of the actor. Declaring it as a query means that  any changes it does make are transient and discarded after the query completes.</p>
+<p>程序使用public query func来定义一个查询方法，在这个方法中，actor_hello程序不会对canister状态进行修改或执行更新数据的操作。</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>For more information about using a query call, see <a href="../concepts/canisters-code.html#query-update">query calls</a> in <a href="../concepts/canisters-code.html#canister-state">Canisters include both program and state</a>.</p>
+<p>要获取有关查询调用的信息，请查看 <a href="../concepts/canisters-code.html#query-update">query calls</a> in <a href="../concepts/canisters-code.html#canister-state">Canisters include both program and state</a>.</p>
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>main.mo</code> file.</p>
+<p>保存并关闭main.mo文件。</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_checking_that_the_canister_builds"><a class="anchor" href="#_checking_that_the_canister_builds"></a>Checking that the canister builds</h2>
+<h2 id="_使用本地识别码构建应用"><a class="anchor" href="#_使用本地识别码构建应用"></a>使用本地识别码构建应用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Usually, in order to build a canister, it&#8217;s necessary to first reserve a unique canister identifier
-on the 互联网计算机 blockchain mainnet.</p>
+<p>如果你只需要对这个简单程序做本地测试，那么，就不需要再ICP网络为这个程序的编译输出保留一个单独的Canister识别码。</p>
 </div>
 <div class="paragraph">
-<p>However, it&#8217;s also possible to compile your program without connecting to the 互联网计算机 blockchain mainnet at all.
-The <code>dfx build --check</code> command uses a temporary, hard-coded canister identifier to accomplish this.</p>
+<p>在本节中，可以无需连接ICP网络来编译程序。dfx build命令可以创建一个本地硬编码的canister识别码。</p>
 </div>
 <div class="paragraph">
-<p>To check that the canister builds:</p>
+<p>测试程序时，在无需本地启动或连接ICP网络的情况下，你都可以使用这个本地识别码。</p>
+</div>
+<div class="paragraph">
+<p>构建程序执行文件步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Navigate back to the root of your project directory.</p>
+<p>进入项目目录</p>
 </li>
 <li>
-<p>Build the canister executable with a temporary, hard-coded identifier by running the following command:</p>
+<p>使用本地识别码构建程序命令</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx build --check</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>--check</code> option enables you to build a project locally to verify that it compiles and to inspect the files produced.
-Because the <code>dfx build --check</code> command only uses a temporary identifier, you should see output similar to the following:</p>
+<p>--check 选项使您能够在本地构建项目以验证它是否编译并检查生成的文件。</p>
+</div>
+<div class="paragraph">
+<p>因为dfx build --check命令仅生成一个临时标识符，所以您应该看到类似于以下内容的输出：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -846,10 +856,10 @@ Building canisters...</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If the canister compiles successfully, you can inspect the output in the default <code>.dfx/local/canisters</code> directory and <code>.dfx/local/canisters/actor_hello/</code> subdirectory.</p>
+<p>如果程序成功编译，可以在.dfx/local/canisters 和 .dfx/local/canisters/actor_hello/ 查看输出的文件。</p>
 </div>
 <div class="paragraph">
-<p>For example, you might use the <code>tree</code> command to review the files created:</p>
+<p>比如，使用tree命令查看创建的文件</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -857,7 +867,7 @@ Building canisters...</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following</p>
+<p>命令输出</p>
 </div>
 </li>
 </ol>
@@ -879,60 +889,58 @@ Building canisters...</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_deploy_the_project"><a class="anchor" href="#_deploy_the_project"></a>Deploy the project</h2>
+<h2 id="_部署项目"><a class="anchor" href="#_部署项目"></a>部署项目</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You cannot deploy the output from the <code>dfx build --check</code> command to  a local canister execution environment or the 互联网计算机 mainnet.
-If you wanted to deploy this project, you would need to do the following:</p>
+<p>dfx build --check 命令不会部署到任何ICP网络。</p>
+</div>
+<div class="paragraph">
+<p>如果要部署本项目，需要做以下步骤：</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Connect to the either the local canister execution environment or 互联网计算机 mainnet.</p>
+<p>连接ICP网络</p>
 </li>
 <li>
-<p>Register a connection-specific canister identifier.</p>
+<p>注册网络Canister识别码</p>
 </li>
 <li>
-<p>Deploy the canister.</p>
+<p>部署Canister</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s consider these steps in a bit more detail.
-Before you can deploy this project, you must connect to either your local canister execution environment, provided by <code>dfx</code>, or to the Internet Computer blockchain mainnet.
-After you connect to a local canister execution environment or 互联网计算机 mainnet, you must also generate a unique, <strong>connection-specific</strong> canister identifier to replace your locally-defined identifier.
-To see the steps involved for yourself, let&#8217;s deploy the project locally.</p>
+<p>在部署项目前，必须连接到本地运行或远程的ICP网络。连接到ICP网络后，必须生成一个独一无二，网络绑定的Canister识别码来替换本地定义的识别码。</p>
 </div>
 <div class="paragraph">
-<p>To deploy this project locally:</p>
+<p>本地部署步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a terminal and navigate to your project directory, if needed.</p>
+<p>打开命令行，进入项目目录</p>
 </li>
 <li>
-<p>Start the local canister execution environment on your local computer by running the following command:</p>
+<p>启动本地ICP网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx start --background</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>For this tutorial, you can use the <code>--background</code> option to start the local canister execution environment as background processes.
-With this option, you can continue to the next step without opening another terminal shell on your local computer.</p>
+<p>本教程中，使用&#8212;&#8203;background 选项启动在后台启动ICP网络。使用这个选项后，你可以继续输入命令无需打开另一个命令行窗口。</p>
 </div>
 </li>
 <li>
-<p>Generate a new canister identifier for your project on the local canister execution environment by running the following command:</p>
+<p>使用下面的命令为项目在本地ICP网络生成一个新的Canister识别码</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister create actor_hello</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You should see output similar to the following:</p>
+<p>输出下面的内容:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -943,10 +951,7 @@ Creating canister "actor_hello"...
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>dfx canister create</code> command also stores the connection-specific canister identifier in a <code>canister_ids.json</code> file in the <code>.dfx/local</code> directory.</p>
-</div>
-<div class="paragraph">
-<p>For example:</p>
+<p>dfx canister create 命令会存储网络绑定的canister识别码到.dfx/local目录下的canister_ids.json文件。</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -959,14 +964,11 @@ Creating canister "actor_hello"...
 </div>
 </li>
 <li>
-<p>Build the canister by running the following command:</p>
+<p>运行下列命令：</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx build</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>The command displays output similar to the following:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -975,14 +977,14 @@ Creating canister "actor_hello"...
 </div>
 </li>
 <li>
-<p>Deploy your <code>actor_hello</code> project on the local canister execution environment by running the following command:</p>
+<p>使用下面的命令在本地ICP网络部署actor_hello 项目。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister install actor_hello</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>命令输出:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -995,18 +997,18 @@ Creating canister "actor_hello"...
 </div>
 </div>
 <div class="sect1">
-<h2 id="_query_the_canister"><a class="anchor" href="#_query_the_canister"></a>Query the canister</h2>
+<h2 id="_查询canister"><a class="anchor" href="#_查询canister"></a>查询Canister</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You now have a canister deployed on your local canister execution environment and can test your canister by using the <code>dfx canister call</code> command.</p>
+<p>现在，项目已经部署到本地ICP网络，并且可以使用dfx canister call命令进行测试。</p>
 </div>
 <div class="paragraph">
-<p>To test the canister you have deployed on the local canister execution environment:</p>
+<p>测试部署的程序步骤如下：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Use <code>dfx canister call</code> to call the <code>hello</code> function by running the following command:</p>
+<p>使用dfx canister call命令调用hello函数:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call actor_hello hello</code></pre>
@@ -1014,9 +1016,9 @@ Creating canister "actor_hello"...
 </div>
 </li>
 <li>
-<p>Verify that the command returns the text specified for the <code>hello</code> function along with a checkpoint message in the terminal running the local canister execution environment.</p>
+<p>验证hello函数在本地网络进程中输出了相应的检查消息。</p>
 <div class="paragraph">
-<p>For example, the canister displays "Hello, World from DFINITY" in output similar to the following:</p>
+<p>例如，程序会输出类似以下内容</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1024,7 +1026,7 @@ Creating canister "actor_hello"...
 </div>
 </div>
 <div class="paragraph">
-<p>Note that if you are running the Internet Computer mainnet in a separate terminal instead of in the background, the "Hello, World from DFINITY" message is displayed in the terminal that displays mainnet activity.</p>
+<p>注意"Hello, World from DFINITY" 只会出现在显示本地ICP网络活动的命令行中。</p>
 </div>
 </li>
 </ol>
@@ -1032,27 +1034,24 @@ Creating canister "actor_hello"...
 </div>
 </div>
 <div class="sect1">
-<h2 id="_stop_the_local_canister_execution_environment"><a class="anchor" href="#_stop_the_local_canister_execution_environment"></a>Stop the local canister execution environment</h2>
+<h2 id="_关闭本地网络"><a class="anchor" href="#_关闭本地网络"></a>关闭本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you finish experimenting with your canister, you can stop the local canister execution environment so that it doesn’t continue running in the background.</p>
+<p>完成程序的测试后，可以关闭ICP网络。</p>
 </div>
 <div class="paragraph">
-<p>To stop the local canister execution environment, you can:</p>
+<p>关闭步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In the terminal used to interact with your canister, issue the command <code>dfx stop</code>; or</p>
+<p>打开显示网络活动的命令行，摁下Control-C命令终止本地网络进程。</p>
 </li>
 <li>
-<p>In the terminal that displays operations from the local canister execution environment, press Control-C to interrupt that process; or</p>
+<p>或通过命令行或操作系统来终止replica进程</p>
 </li>
 <li>
-<p>Kill the <code>replica</code> process using commands or tools of your operating system.</p>
-</li>
-<li>
-<p>Stop the local canister execution environment by running the following command:</p>
+<p>运行下面的命令终止网络。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx stop</code></pre>
