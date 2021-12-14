@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Add a stylesheet :: 互联网计算机开发者文档</title>
+    <title>添加前端样式 :: 互联网计算机开发者文档</title>
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/search.css">
@@ -607,86 +607,69 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Add a stylesheet</h1>
+<h1 class="page">添加前端样式</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Cascading stylesheets are an important part of any front-end user interface. The default starter is configured to import a <code>main.css</code> file that you can edit, but you may prefer to import your stylesheet into a JavaScript file, or to use an alternate format such as Syntactically Awesome Style Sheets, aka SCSS.
-This tutorial illustrates how to configure webpack to import a stylesheet by walking through building a contact dapp.
-If you already know how to add cascading stylesheets (CSS) to a webpack-based project, you can skip this tutorial.</p>
+<p>CSS是一种常用的定制用户体验的方法。</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-This tutorial illustrates using the React framework to manage the Document Object Model (DOM) for your front-end.
-Because React has its own custom DOM syntax, you need to modify the webpack configuration to compile the front-end code, which is written in JSX. For more information about learning to use React and JSX, see <a href="https://reactjs.org/docs/getting-started.html">Getting started</a> on the <a href="https://reactjs.org/">React website</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>本教程讲解了如何给React创建的项目添加样式表。</p>
+</div>
+<div class="paragraph">
+<p>如果你已经了解了如何给React项目添加样式表，可以跳过本教程。</p>
+</div>
+<div class="paragraph">
+<p>注意： 本教程说明了如何使用 React 框架来管理Canister的文档对象模型 (DOM)。 因为 React 有自己自定义的 DOM 语法，所以需要修改 webpack 配置来编译前端代码，前端代码是用 JSX 编写的。 有关学习使用 React 和 JSX 的更多信息, 请参考<a href="https://reactjs.org/docs/getting-started.html">Getting started</a> 通过 <a href="https://reactjs.org/">React网站</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_before_you_begin"><a class="anchor" href="#_before_you_begin"></a>Before you begin</h2>
+<h2 id="_开始之前"><a class="anchor" href="#_开始之前"></a>开始之前</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before starting the tutorial, verify the following:</p>
+<p>开始之前，需要检查以下内容：</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>You have <code>node.js</code> installed for front-end development and can install packages using <code>npm install</code> in your project.
-For information about installing node for your local operating system and package manager, see the <a href="https://nodejs.org/en/">Node</a> website.</p>
+<p>为前端开发安装了node.js并且可以使用npm install在项目中安装包。需要更多关于安装node和包管理器的信息，请查看<a href="https://nodejs.org/en/">Node网站</a></p>
 </li>
 <li>
-<p>You have downloaded and installed the DFINITY Canister SDK package as described in <a href="../../quickstart/local-quickstart.html#download-and-install">Download and install</a>.</p>
+<p>已经下载并安装了DFINITY Canister SDK</p>
 </li>
 <li>
-<p>You have installed the Visual Studio Code plugin for Motoko as described in <a href="../../quickstart/local-quickstart.html#install-vscode">Install the language editor plug-in</a> if you are using Visual Studio Code as your IDE.</p>
+<p>安装了Motoko 的VSCode 插件</p>
 </li>
 <li>
-<p>You have stopped any local canister execution environment processes running on the local
-computer.</p>
+<p>终止了所有ICP网络进程</p>
 </li>
 </ul>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-This tutorial requires you to use the DFINITY Canister SDK version <code>0.8.0</code> or later.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>注意： 本教程要求使用0.8.0版本或更高版本的sdk</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_new_project"><a class="anchor" href="#_create_a_new_project"></a>Create a new project</h2>
+<h2 id="_创建新项目"><a class="anchor" href="#_创建新项目"></a>创建新项目</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To create a new project directory for your custom front-end dapp:</p>
+<p>创建项目步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a terminal shell on your local computer, if you don’t already have one open.</p>
+<p>打开终端</p>
 </li>
 <li>
-<p>Change to the folder you are using for your 互联网计算机 projects, if you are using one.</p>
+<p>进入工作目录</p>
 </li>
 <li>
-<p>Verify that you have <code>node.js</code> installed locally, if necessary.</p>
+<p>验证你已经安装了nodejs</p>
 </li>
 <li>
-<p>Create a new project by running the following command:</p>
+<p>运行下面的命令来创建项目</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx new contacts</code></pre>
@@ -694,7 +677,7 @@ This tutorial requires you to use the DFINITY Canister SDK version <code>0.8.0</
 </div>
 </li>
 <li>
-<p>Change to your project directory by running the following command:</p>
+<p>进入项目目录</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd contacts</code></pre>
@@ -706,18 +689,18 @@ This tutorial requires you to use the DFINITY Canister SDK version <code>0.8.0</
 </div>
 </div>
 <div class="sect1">
-<h2 id="_install_the_react_framework"><a class="anchor" href="#_install_the_react_framework"></a>Install the React framework</h2>
+<h2 id="_安装react框架"><a class="anchor" href="#_安装react框架"></a>安装React框架</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>if you&#8217;ve never used React before, you might want to explore the <a href="https://reactjs.org/tutorial/tutorial.html">Intro to React</a> tutorial or the <a href="https://reactjs.org/">React website</a> before editing the front-end code.</p>
+<p>如果你不了解React框架，可以在<a href="https://reactjs.org/tutorial/tutorial.html">React网站</a> 进行探索。</p>
 </div>
 <div class="paragraph">
-<p>To install required framework modules:</p>
+<p>安装React模块步骤如下：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Install the React module by running the following command:</p>
+<p>运行下面的命令安装React模块</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">npm install --save react react-dom</code></pre>
@@ -725,7 +708,7 @@ This tutorial requires you to use the DFINITY Canister SDK version <code>0.8.0</
 </div>
 </li>
 <li>
-<p>Install the required TypeScript language compiler loader by running the following command:</p>
+<p>运行下面的命令安装Typescript加载器:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">npm install --save-dev typescript ts-loader</code></pre>
@@ -733,26 +716,17 @@ This tutorial requires you to use the DFINITY Canister SDK version <code>0.8.0</
 </div>
 </li>
 <li>
-<p>Install the required style loaders by running the following command:</p>
+<p>运行以下命令安装所需的样式加载器：</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">npm install --save-dev style-loader css-loader</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If the <code>npm install</code> command reports a vulnerability, you might also want to run the <code>npm audit fix</code> command to attempt to fix the vulnerability reported before continuing.</p>
+<p>如果 npm install 命令报告漏洞，您可能还需要运行 npm audit fix 命令尝试修复报告的漏洞，然后再继续。</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-As an alternative to installing these modules, you can edit the default <code>package.json</code> file to add dependencies for your project.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>注意: 另一个安装模块的方法是，你可以编辑package.json文件来添加模块</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -791,7 +765,15 @@ As an alternative to installing these modules, you can edit the default <code>pa
 </div>
 </div>
 <div class="paragraph">
-<p>The version of the JavaScript agent in this example <code>package.json</code> file is <code>0.10.0</code>. In most cases, however, you would want to use the latest version of the agent available. When you create a new project, the <code>dfx new</code> command automatically retrieves the latest version of the JavaScript agent for you. You can also manually retrieve the latest version after creating a project by running the <code>npm install --save @dfinity/agent</code> command.</p>
+<p>JavaScript的package.json版本为0.10.0。但是多数情况下，需要使用最新版本的代理。</p>
+</div>
+<div class="paragraph">
+<p>当你创建新项目时，dfx new 命令会自动检索最新版本的JavaScript版本，你也可以手动检索最新版本，通过以下命令：</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">npm install --save @dfinity/agent</code></pre>
+</div>
 </div>
 </li>
 </ol>
@@ -799,21 +781,21 @@ As an alternative to installing these modules, you can edit the default <code>pa
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_default_program"><a class="anchor" href="#_modify_the_default_program"></a>Modify the default program</h2>
+<h2 id="_修改默认程序"><a class="anchor" href="#_修改默认程序"></a>修改默认程序</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For this tutorial, you are going to modify the main program to with code that allows you to store and look up contact information.</p>
+<p>本章节中，你将会修改主程序，以便你可以保存和查询联系信息。</p>
 </div>
 <div class="paragraph">
-<p>To modify the default program:</p>
+<p>修改源码步骤如下。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>src/contacts/main.mo</code> file in a text editor and delete the existing content.</p>
+<p>打开src/contacts/main.mo文件并删除已有内容</p>
 </li>
 <li>
-<p>Copy and paste the following sample code into the file:</p>
+<p>复制粘贴下面的代码</p>
 <div class="listingblock copy">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-motoko hljs" data-lang="motoko">import List "mo:base/List";
@@ -866,25 +848,25 @@ actor Contact {
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>main.mo</code> file to continue.</p>
+<p>保存修改并关闭main.mo文件继续。</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_front_end_files"><a class="anchor" href="#_modify_the_front_end_files"></a>Modify the front-end files</h2>
+<h2 id="_修改前端文件"><a class="anchor" href="#_修改前端文件"></a>修改前端文件</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You are now ready to create a new front-end for your program.</p>
+<p>现在可以为程序创建新的前端了</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the webpack configuration file (<code>webpack.config.js</code>) in a text editor.</p>
+<p>编辑器中打开webpack配置文件（webpack.config.js）</p>
 </li>
 <li>
-<p>Modify the front-end entry to replace the default index.html with index.jsx.</p>
+<p>修改前端入口用index.jsx替换默认index.html</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">entry: {
@@ -896,7 +878,7 @@ actor Contact {
 </div>
 </li>
 <li>
-<p>Locate the commented example for the <code>module</code> key above the <code>plugins</code> section, then uncomment the following lines:</p>
+<p>定位plugins项上面的module键的注释例子，然后将下面的几行取消注释</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">module: {
@@ -909,9 +891,9 @@ actor Contact {
 </div>
 </li>
 <li>
-<p>These settings enable your program to use the <code>ts-loader</code> compiler and to import CSS files.</p>
+<p>这些配置允许你的程序使用ts-loader编译器并导入css文件.</p>
 <div class="paragraph">
-<p>Note: if you want to add support for <code>.scss</code> or <code>.sass</code> files, you should install <code>sass-loader</code> with:</p>
+<p>注意：如果支持.scss或.sass文件，可以通过以下命令安装sass-loader</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -919,7 +901,7 @@ actor Contact {
 </div>
 </div>
 <div class="paragraph">
-<p>and then add this additional rule beneath the <code>css-loader</code> rule in <code>webpack.config.js</code>:</p>
+<p>将以下内容增加到webpack.config.js里css-loader下面</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -943,13 +925,13 @@ actor Contact {
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>webpack.config.js</code> file to continue.</p>
+<p>保存webpack.config.js文件并退出</p>
 </li>
 <li>
-<p>Create a new file named <code>tsconfig.json</code> in the root directory for your project.</p>
+<p>项目根目录下创建新的tsconfig.json文件</p>
 </li>
 <li>
-<p>Open the <code>tsconfig.json</code> file in a text editor, then copy and paste the following into the file:</p>
+<p>打开tsconfig.json文件，然后复制粘贴下面的内容到文件</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
@@ -965,25 +947,25 @@ actor Contact {
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>tsconfig.json</code> file to continue.</p>
+<p>保存修改并关闭tsconfig.json文件继续</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_add_a_stylesheet_to_your_project"><a class="anchor" href="#_add_a_stylesheet_to_your_project"></a>Add a stylesheet to your project</h2>
+<h2 id="_为你的项目添加样式表"><a class="anchor" href="#_为你的项目添加样式表"></a>为你的项目添加样式表</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You are now ready to create a new cascading stylesheet and add it to your project.</p>
+<p>你现在可以创建一个新的CSS文件并添加到你的项目</p>
 </div>
 <div class="paragraph">
-<p>To add a stylesheet:</p>
+<p>添加步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Change to the <code>src/contacts_assets/assets</code> directory.</p>
+<p>切换到 src/contacts_assets/assets 目录</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd src/contacts_assets/assets/</code></pre>
@@ -991,12 +973,12 @@ actor Contact {
 </div>
 </li>
 <li>
-<p>Open the <code>main.css</code> file in a text editor and delete the existing content.</p>
+<p>在编辑器中打开 mycontacts.css 文件并删除内容</p>
 </li>
 <li>
-<p>Define some style properties for the front-end.</p>
+<p>定义一些样式属性</p>
 <div class="paragraph">
-<p>For example, copy and paste the following sample styles into the file:</p>
+<p>例如，拷贝贴贴下面的代码：</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1044,10 +1026,10 @@ button {
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>main.css</code> file to continue.</p>
+<p>保存并关闭 mycontacts.css 文件</p>
 </li>
 <li>
-<p>Change to the <code>src/contacts_assets/src</code> directory.</p>
+<p>切换到 src/contacts_assets/src 目录</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd ../src</code></pre>
@@ -1055,10 +1037,10 @@ button {
 </div>
 </li>
 <li>
-<p>Open the default <code>index.js</code> file in a text editor and delete the existing content.</p>
+<p>在编辑器中打开 index.js 文件并删除内容</p>
 </li>
 <li>
-<p>Copy and paste the following sample code into the <code>index.js</code> file:</p>
+<p>拷贝贴贴下面的代码到 index.js 文件</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-react hljs" data-lang="react">import * as React from "react";
@@ -1156,7 +1138,7 @@ render(&lt;Contact /&gt;, document.getElementById("contacts"));</code></pre>
 </div>
 </li>
 <li>
-<p>Rename the modified <code>index.js</code> file as <code>index.jsx</code> by running the following command:</p>
+<p>将 index.js 文件重命名为 index.jsx</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mv index.js index.jsx</code></pre>
@@ -1164,9 +1146,9 @@ render(&lt;Contact /&gt;, document.getElementById("contacts"));</code></pre>
 </div>
 </li>
 <li>
-<p>Open the default <code>src/contacts_assets/src/index.html</code> file in a text editor, then remove the <code>main.css</code> link and update the <code>body</code> contents with <code>&lt;div id="contacts"&gt;&lt;/div&gt;</code>.</p>
+<p>在编辑器中打开 src/contacts_assets/src/index.html 文件， 将 main.css 替换为 mycontacts.css 并且更新 body 包含</p>
 <div class="paragraph">
-<p>For example:</p>
+<p>例如:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1188,9 +1170,9 @@ render(&lt;Contact /&gt;, document.getElementById("contacts"));</code></pre>
 </div>
 </li>
 <li>
-<p>Navigate back to the root of your project directory.</p>
+<p>退回到项目根目录</p>
 <div class="paragraph">
-<p>For example:</p>
+<p>例如</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1203,28 +1185,28 @@ render(&lt;Contact /&gt;, document.getElementById("contacts"));</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_start_the_local_network"><a class="anchor" href="#_start_the_local_network"></a>Start the local network</h2>
+<h2 id="_启动本地网络"><a class="anchor" href="#_启动本地网络"></a>启动本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before you can build the <code>contacts</code> project, you need to connect to the local canister execution environment.</p>
+<p>开始构建项目前，需要连接到本地或远程 ICP 网络。</p>
 </div>
 <div class="paragraph">
-<p>To start the environment locally:</p>
+<p>启动网络步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a new terminal window or tab on your local computer.</p>
+<p>打开新的终端</p>
 </li>
 <li>
-<p>Start the local canister execution environment on your local computer by running the following command:</p>
+<p>进入项目根目录</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx start --background</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>After the environment completes its startup operations, you can continue to the next step.</p>
+<p>使用下面的命令启动 ICP 本地网络.</p>
 </div>
 </li>
 </ol>
@@ -1232,34 +1214,34 @@ render(&lt;Contact /&gt;, document.getElementById("contacts"));</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_register_build_and_deploy_the_dapp"><a class="anchor" href="#_register_build_and_deploy_the_dapp"></a>Register, build, and deploy the dapp</h2>
+<h2 id="_注册构建并部署应用"><a class="anchor" href="#_注册构建并部署应用"></a>注册构建并部署应用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you connect to the local canister execution environment in your development environment, you can register, build, and deploy your dapp for testing.</p>
+<p>在开发环境中连接到本地ICP网络后，就可以在本地注册构建部署应用了。</p>
 </div>
 <div class="paragraph">
-<p>To deploy the dapp:</p>
+<p>部署应用步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in the root directory for your project, if needed.</p>
+<p>检查是否在项目根目录</p>
 </li>
 <li>
-<p>Register, build, and deploy your dapp by running the following command:</p>
+<p>注册构建并部署应用命令</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx deploy</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>dfx deploy</code> command output displays information about the operations it performs.</p>
+<p><code>dfx deploy</code> 命令会输出执行的操作信息</p>
 </div>
 <div class="paragraph">
-<p>Keep in mind that because you are running the canister execution environment locally, the identifiers displayed when you run the <code>dfx deploy</code> command are only valid on your machine.</p>
+<p>请注意`dfx deploy` 命令显示的标识符仅在本地网络环境下有效</p>
 </div>
 <div class="paragraph">
-<p>To deploy canisters on the 互联网计算机平台, you must specify that you are deploying to the 互联网计算机 and not your local environment by using the <code>--network</code> command-line option:</p>
+<p>要在外部 Internet Computer 网络上部署, 您必须使用 --network 命令行选项和特定网络名称或地址 来注册标识符. 例如, 运行下列命令，以使用别名 ic 在 Internet Computer 上部署：</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1268,7 +1250,7 @@ render(&lt;Contact /&gt;, document.getElementById("contacts"));</code></pre>
 </div>
 </li>
 <li>
-<p>Start the Webpack development server:</p>
+<p>启动WebPack服务</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">npm start</code></pre>
@@ -1280,21 +1262,21 @@ render(&lt;Contact /&gt;, document.getElementById("contacts"));</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_view_the_front_end"><a class="anchor" href="#_view_the_front_end"></a>View the front-end</h2>
+<h2 id="_查看前端"><a class="anchor" href="#_查看前端"></a>查看前端</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can now access the front-end for the <code>contacts</code> dapp.</p>
+<p>现在可以通过输入资源canister识别码访问默认程序的新的前端。</p>
 </div>
 <div class="paragraph">
-<p>To view the front-end:</p>
+<p>查看前端步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a browser and navigate to the <code><a href="http://localhost:8080" class="bare">http://localhost:8080</a></code>.</p>
+<p>打开浏览器，输入 <code><a href="http://localhost:8080" class="bare">http://localhost:8080</a></code>.</p>
 </li>
 <li>
-<p>Verify that you are prompted with a <strong>My Contacts</strong> form.</p>
+<p>验证你可以看到一个My Contacts表单</p>
 <div class="paragraph">
 <p>For example:</p>
 </div>
@@ -1303,36 +1285,12 @@ render(&lt;Contact /&gt;, document.getElementById("contacts"));</code></pre>
 </div>
 </li>
 <li>
-<p>Create one or more test records by entering text in the Name, Address, and Email input fields and a number in the Phone input field, then clicking <strong>Add Contact</strong>.</p>
+<p>通过输入名称，地址和邮箱文本以及电话数字创建一个或多个记录，然后点击 Add Contact。</p>
 </li>
 <li>
-<p>Clear the form fields and type a contact name in the Lookup name field, then click <strong>Lookup</strong> to see the stored contact information.</p>
+<p>清除表单内容并在查询名称中输入联系名称，然后点击Lookup查看保存的联系信息。</p>
 <div class="paragraph">
-<p>Keep in mind that the <strong>Lookup name</strong> you type must be an exact match for the name of a contact you added.</p>
-</div>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_modify_the_stylesheet_and_test_your_changes"><a class="anchor" href="#_modify_the_stylesheet_and_test_your_changes"></a>Modify the stylesheet and test your changes</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>After viewing the Contacts dapp, you might want to make some changes.</p>
-</div>
-<div class="paragraph">
-<p>To change stylesheet properties:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Open the <code>src/contacts_assets/assets/mycontacts.css</code> file in a text editor and modify its style settings.</p>
-<div class="paragraph">
-<p>For example, you might want to change the background color or style the input form.</p>
-</div>
-<div class="paragraph">
-<p>You should see the changes update immediately in your open browser window.</p>
+<p>记住你输入的Lookup名称必须完全匹配你输入的名称。</p>
 </div>
 </li>
 </ol>
@@ -1340,43 +1298,66 @@ render(&lt;Contact /&gt;, document.getElementById("contacts"));</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_front_end_or_back_end_code"><a class="anchor" href="#_modify_the_front_end_or_back_end_code"></a>Modify the front-end or back-end code</h2>
+<h2 id="_修改样式并测试"><a class="anchor" href="#_修改样式并测试"></a>修改样式并测试</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you want to explore further, you might want to experiment with modifying the front-end or back-end code for this tutorial.
-For example, you might want try modifying the tutorial to do the following:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Change the front-end code to clear the input fields after adding a new contact, for example, as part of an <code>onClick</code> event.</p>
-</li>
-<li>
-<p>Change the Motoko program functions to do partial instead of exact string matching on the <code>Name</code> field. (You will need to run <code>dfx deploy</code> to test your changes on the local environment)</p>
-</li>
-<li>
-<p>Change the Motoko program to allow lookups based on a different field.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_stop_the_local_canister_execution_environment"><a class="anchor" href="#_stop_the_local_canister_execution_environment"></a>Stop the local canister execution environment</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>After you finish experimenting with your program, you can stop the local environment so that it doesn’t continue running in the background.</p>
+<p>查看完联系人应用后，你也许想做一些修改</p>
 </div>
 <div class="paragraph">
-<p>To stop the local development environment:</p>
+<p>修改样式属性</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In the terminal that displays your webpack dev server, press Control-C to interrupt the development server.</p>
+<p>编辑器中打开src/contacts_assets/public/mycontacts.css文件并修改样式配置</p>
+<div class="paragraph">
+<p>例如，你可能想要修改背景颜色或者输入表单样式</p>
+</div>
+<div class="paragraph">
+<p>浏览器中刷新页面查看结果</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_修改前端或后端代码"><a class="anchor" href="#_修改前端或后端代码"></a>修改前端或后端代码</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>如果你想进一步探索，你可以修改前端或后端代码做实验。例如，你可以尝试下面的步骤。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>修改前端代码，使其在添加一个联系方式后清空输入框内容，作为onClick事件的一部分</p>
 </li>
 <li>
-<p>Stop the 互联网计算机 network by running the following command:</p>
+<p>修改Motoko程序函数，使Name做部分匹配而不是完全匹配</p>
+</li>
+<li>
+<p>修改Motoko程序允许基于不同的元素查找</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_关闭本地网络"><a class="anchor" href="#_关闭本地网络"></a>关闭本地网络</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>完成程序的测试后，可以关闭ICP网络</p>
+</div>
+<div class="paragraph">
+<p>关闭步骤</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>打开显示网络活动的命令行，摁下Control-C命令终止本地网络进程</p>
+</li>
+<li>
+<p>运行下面的命令终止网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx stop</code></pre>
