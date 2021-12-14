@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Use integers in calculator functions :: 互联网计算机开发者文档</title>
+    <title>计算函数中使用整数 :: 互联网计算机开发者文档</title>
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/search.css">
@@ -607,82 +607,79 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Use integers in calculator functions</h1>
+<h1 class="page">计算函数中使用整数</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this tutorial, you are going to write a simple calculator program that creates a single actor with several public entry-point functions to perform basic arithmetic operations.</p>
+<p>本章节中会编写一个简单的计算器程序，程序会创建一个actor，actor有几个执行计算操作的公共函数。</p>
 </div>
 <div class="paragraph">
-<p>For this tutorial, the actor is named <code>Calc</code>.
-The program uses the <code>cell</code> variable to contain an integer number that represents the current result of a calculator operation.</p>
+<p>actor命名为Calc。程序使用cell变量来代表计算操作结果。</p>
 </div>
 <div class="paragraph">
-<p>This program supports the following function calls:</p>
+<p>程序支持下面的函数调用</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The <code>add</code> function call accepts input and performs addition.</p>
+<p>add函数接受输入并执行加法</p>
 </li>
 <li>
-<p>The <code>sub</code> function call accepts input and performs subtraction.</p>
+<p>sub函数接受输入并执行减法</p>
 </li>
 <li>
-<p>The <code>mul</code> function call accepts input and performs multiplication.</p>
+<p>mul函数接受输入并执行乘法</p>
 </li>
 <li>
-<p>The <code>div</code> function call accepts input and performs division.</p>
+<p>div函数接受输入并执行除法</p>
 </li>
 <li>
-<p>The <code>clearall</code> function clears the <code>cell</code> value stored as the result of previous operations, resetting the <code>cell</code> value to zero.</p>
+<p>clearall函数清空存储前一个操作结果的变量cell，重置cell值到0</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The <code>div</code> function also includes code to prevent the program from attempting to divide by zero.</p>
+<p>div函数也包含阻止程序除零的代码。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_before_you_begin"><a class="anchor" href="#_before_you_begin"></a>Before you begin</h2>
+<h2 id="_开始之前"><a class="anchor" href="#_开始之前"></a>开始之前</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before starting the tutorial, verify the following:</p>
+<p>开始前，需要检查下面的问题</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>You have downloaded and installed the DFINITY Canister SDK package as described in <a href="../../quickstart/local-quickstart.html#download-and-install">Download and install</a>.</p>
+<p>已经按照 <a href="../../quickstart/local-quickstart.html#download-and-install">下载与安装</a>章节的步骤下载并安装了DFINITY Canister SDK 。</p>
 </li>
 <li>
-<p>You have stopped any canister execution environment running on the local
-computer.</p>
+<p>本地电脑上已经关闭了ICP网络进程。</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>This tutorial takes approximately 20 minutes to complete.</p>
+<p>本篇教程需要大概20分钟。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_new_project"><a class="anchor" href="#_create_a_new_project"></a>Create a new project</h2>
+<h2 id="_创建新项目"><a class="anchor" href="#_创建新项目"></a>创建新项目</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To create a new project for this tutorial:</p>
+<p>创建项目步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a terminal shell on your local computer, if you don’t already
-have one open.</p>
+<p>打开终端</p>
 </li>
 <li>
-<p>Change to the folder you are using for your 互联网计算机 projects, if you are using one.</p>
+<p>进入工作目录</p>
 </li>
 <li>
-<p>Create a new project by running the following command:</p>
+<p>运行下面的命令来创建项目</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx new calc</code></pre>
@@ -690,7 +687,7 @@ have one open.</p>
 </div>
 </li>
 <li>
-<p>Change to your project directory by running the following command:</p>
+<p>切换到项目终端</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd calc</code></pre>
@@ -702,23 +699,23 @@ have one open.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_default_configuration"><a class="anchor" href="#_modify_the_default_configuration"></a>Modify the default configuration</h2>
+<h2 id="_修改默认配置"><a class="anchor" href="#_修改默认配置"></a>修改默认配置</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For this tutorial, let&#8217;s modify the default <code>dfx.json</code> configuration file to use a more specific name for its main program.</p>
+<p>在探索默认项目章节，已经介绍了创建新项目会添加一个dfx.json配置文件到项目目录。在本章节中，需要修改一些默认配置。</p>
 </div>
 <div class="paragraph">
-<p>To modify the default <code>dfx.json</code> configuration file:</p>
+<p>dfx.json配置修改步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>dfx.json</code> configuration file in a text editor.</p>
+<p>在编辑器中，打开 dfx.json 配置文件。</p>
 </li>
 <li>
-<p>Change the <code>main</code> key setting from the default <code>main.mo</code> program name to <code>calc_main.mo</code>.</p>
+<p>修改默认的main设置。</p>
 <div class="paragraph">
-<p>For example:</p>
+<p>例如</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -726,38 +723,37 @@ have one open.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>For this tutorial, changing the name of the source file from <code>main.mo</code> to <code>calc_main.mo</code> simply illustrates how the setting in the <code>dfx.json</code> configuration file determines the source file to be compiled.</p>
+<p>这里，修改源文件名名称可以让dfx.json配置文件找到合适的文件进行编译。</p>
 </div>
 <div class="paragraph">
-<p>In a more complex dapp, you might have multiple source files instead of a single <code>main</code> program file.
-More complex applications might also have specific dependencies between multiple source files that you need to manage using settings in the <code>dfx.json</code> configuration file.
-In a scenario like that—with multiple canisters and programs defined in your <code>dfx.json</code> file—having multiple files all named <code>main.mo</code> might make navigating your workspace more difficult.
-The name you choose for each program isn&#8217;t significant, but it is important that the name you set in the <code>dfx.json</code> file matches the name of your program in the file system.</p>
+<p>在更复杂的应用中，dfx.json配置文件中可能会有多个你要包含依赖的源文件需要管理。
+这种情况下-dfx.json文件中定义了多个canister和程序-有多个被命名为main.mo的文件可能会导致混乱。
+文件的其他部分无需修改</p>
 </div>
 </li>
 <li>
-<p>Save your changes and close the file to continue.</p>
+<p>保存并关闭dfx.json继续。</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_default_program"><a class="anchor" href="#_modify_the_default_program"></a>Modify the default program</h2>
+<h2 id="_修改默认程序"><a class="anchor" href="#_修改默认程序"></a>修改默认程序</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For this tutorial, you need to replace the default program with a program that performs basic arithmetic operations.</p>
+<p>在本章节中，需要用执行基本算数操作的程序替换默认程序。</p>
 </div>
 <div class="paragraph">
-<p>To replace the default program:</p>
+<p>源码修改步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in your project directory, if needed.</p>
+<p>检查是否当前目录为项目根目录</p>
 </li>
 <li>
-<p>Copy the template <code>main.mo</code> file to create a new file named <code>calc_main.mo</code> by running the following command:</p>
+<p>运行下面的命令从模板mai n.mo文件创建calc_main.mo新文件</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cp src/calc/main.mo src/calc/calc_main.mo</code></pre>
@@ -765,10 +761,10 @@ The name you choose for each program isn&#8217;t significant, but it is importan
 </div>
 </li>
 <li>
-<p>Open the <code>src/calc/calc_main.mo</code> file in a text editor and delete the existing content.</p>
+<p>编辑器中打开src/calc/calc_main.mo文件并删除已有内容</p>
 </li>
 <li>
-<p>Copy and paste the following sample code into the <code>calc_main.mo</code> file:</p>
+<p>复制粘贴下面的代码到calc_main.mo文件</p>
 <div class="listingblock copy">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-motoko hljs" data-lang="motoko">// This single-cell calculator defines one calculator instruction per
@@ -800,93 +796,78 @@ actor Calc {
 </div>
 </div>
 <div class="paragraph">
-<p>You might notice that this sample code uses integer (<code>Int</code>) data types, enabling you to use positive or negative numbers.
-If you wanted to restrict the functions in this calculator code to only use positive numbers, you could change the data type to only allow natural (<code>Nat</code>) data.</p>
+<p>示例代码中使用了整数类型，允许使用正数或负数。如果想要使代码只处理正数，可以将数据类型改为自然数（Nat）。</p>
 </div>
 </li>
 <li>
-<p>Save your changes and close the file to continue.</p>
+<p>保存修改并关闭文件继续。</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_start_the_local_canister_execution_environment"><a class="anchor" href="#_start_the_local_canister_execution_environment"></a>Start the local canister execution environment</h2>
+<h2 id="_启动本地网络"><a class="anchor" href="#_启动本地网络"></a>启动本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before you can build the <code>calc</code> project, you need to connect to the canister execution environment running locally in your development environment, or you need to connect toa subnet that you can access.</p>
+<p>开始构建项目前，需要连接到本地或远程 ICP 网络。</p>
 </div>
 <div class="paragraph">
-<p>Starting the network locally requires a <code>dfx.json</code> file, so you should be sure you are in your project&#8217;s root directory.
-For this tutorial, you should have two separate terminal shells, so that you can start and see network operations in one terminal and manage your project in another.</p>
+<p>启动本地网络需要 dfx.json 文件，需要确认在项目根目录操作。在这篇教程中，建议开启 2 个终端，一个启动网络，另一个管理项目。</p>
 </div>
 <div class="paragraph">
-<p>To start the local canister execution environment:</p>
+<p>启动网络步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a new terminal window or tab on your local computer.</p>
+<p>打开新的终端
+.进入项目根目录</p>
 </li>
 <li>
-<p>Navigate to the root directory for your project, if necessary.</p>
-<div class="openblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>You should now have <strong>two terminals</strong> open.</p>
-</li>
-<li>
-<p>You should have the <strong>project directory</strong> as your <strong>current working directory</strong>.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</li>
-<li>
-<p>Start the local canister execution environment on your machine by running the following command:</p>
+<p>使用下面的命令启动 ICP 本地网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx start</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>After you start the local network, the terminal displays messages about network operations.</p>
+<p>这是可能会有警告信息显示，这取决于使用的平台安全策略配置。这时请选择允许。</p>
+</div>
+<div class="paragraph">
+<p>启动本地网络后，终端会显示网络操作信息</p>
 </div>
 </li>
 <li>
-<p>Leave the terminal that displays network operations open and switch your focus to your original terminal where you created your new project.</p>
+<p>切换到项目终端</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_register_build_and_deploy_the_dapp"><a class="anchor" href="#_register_build_and_deploy_the_dapp"></a>Register, build, and deploy the dapp</h2>
+<h2 id="_注册构建并部署应用"><a class="anchor" href="#_注册构建并部署应用"></a>注册构建并部署应用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you connect to the local canister execution environment, you can register, build, and deploy your dapp locally.</p>
+<p>在开发环境中连接到本地ICP网络后，就可以在本地注册构建部署应用了。</p>
 </div>
 <div class="paragraph">
-<p>To deploy the dapp locally:</p>
+<p>部署应用步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in the root directory for your project, if needed.</p>
+<p>检查是否在项目根目录</p>
 </li>
 <li>
-<p>Register, build, and deploy your dapp by running the following command:</p>
+<p>注册构建并部署应用命令</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx deploy</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>dfx deploy</code> command output displays information about the operations it performs.</p>
+<p>dfx deploy命令会输出执行的操作信息</p>
 </div>
 </li>
 </ol>
@@ -894,30 +875,28 @@ For this tutorial, you should have two separate terminal shells, so that you can
 </div>
 </div>
 <div class="sect1">
-<h2 id="_verify_calculator_functions_on_the_canister"><a class="anchor" href="#_verify_calculator_functions_on_the_canister"></a>Verify calculator functions on the canister</h2>
+<h2 id="_在canister中验证计算函数"><a class="anchor" href="#_在canister中验证计算函数"></a>在Canister中验证计算函数</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You now have a program deployed as a <strong>canister smart contract</strong> on your local canister execution environment.
-You can test the program by using <code>dfx canister call</code> commands.</p>
+<p>现在，项目已经部署到本地ICP网络，并且可以使用dfx canister call命令进行测试。</p>
 </div>
 <div class="paragraph">
-<p>To test the program you have deployed:</p>
+<p>测试部署的程序步骤如下</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Use the <code>dfx canister call</code> command to call the <code>calc</code> canister <code>add</code> function and pass it the input argument <code>10</code> by running the following command:</p>
+<p>使用dfx canister call命令调用calc Canister中的add函数并传递参数10</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call calc add '(10)'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>When you pass an argument enclosed by the single quotation marks and parentheses,the interface description language (IDL) parses the argument type, so you don&#8217;t need to specify the argument type manually.</p>
+<p>当传递单引号包含的参数，接口描述语言（IDL）会解析参数类型，因此无需指定参数类型</p>
 </div>
 <div class="paragraph">
-<p>Verify that the command returns the value expected for the <code>add</code> function.
-For example, the program displays output similar to the following:</p>
+<p>验证命令返回值是否符合add函数执行结果的期望。例如，程序输出为:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -926,15 +905,14 @@ For example, the program displays output similar to the following:</p>
 </div>
 </li>
 <li>
-<p>Call the <code>mul</code> function and pass it the input argument <code>3</code> by running the following command:</p>
+<p>运行下面的命令调用mul函数并传递参数3</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call calc mul '(3)'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Verify that the command returns the value expected for the <code>mul</code> function.
-For example, the program displays output similar to the following:</p>
+<p>验证命令返回值是否符合mul函数执行结果的期望。例如，程序输出为</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -943,15 +921,14 @@ For example, the program displays output similar to the following:</p>
 </div>
 </li>
 <li>
-<p>Call the <code>sub</code> function and pass it the input argument <code>5</code> of type <code>number</code> by running the following command:</p>
+<p>运行下面的命令调用sub函数并传递参数5</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call calc sub '(5)'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Verify that the command returns the value expected for the <code>sub</code> function.
-For example, the program displays output similar to the following:</p>
+<p>验证命令返回值是否符合sub函数执行结果的期望。例如，程序输出为</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -960,15 +937,14 @@ For example, the program displays output similar to the following:</p>
 </div>
 </li>
 <li>
-<p>Call the <code>div</code> function and pass it the input argument <code>5</code> by running the following command:</p>
+<p>运行下面的命令调用div函数并传递参数5</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call calc div '(5)'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Verify that the command returns the value expected for the <code>div</code> function.
-For example, the program displays output similar to the following:</p>
+<p>验证命令返回值是否符合div函数执行结果的期望。例如，程序输出为</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -976,12 +952,10 @@ For example, the program displays output similar to the following:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>You might notice that the <code>div</code> function returns an optional result.
-The program makes the result optional to enable the <code>div</code> function to return <code>null</code> in the case of a division-by-zero error.</p>
+<p>注意到div函数返回了一个Option的结果。程序会输出可选值可以使div函数在出现除零错误时返回null</p>
 </div>
 <div class="paragraph">
-<p>Because the cell variable in this program is an integer, you can also call its functions and specify negative input values.
-For example, you might run the following command:</p>
+<p>因为cell变量是一个整数，可以调用函数并输入负数。例如，运行下面的命令</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -989,7 +963,7 @@ For example, you might run the following command:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>which returns:</p>
+<p>返回</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -998,14 +972,14 @@ For example, you might run the following command:</p>
 </div>
 </li>
 <li>
-<p>Call the <code>clearall</code> function and verify it resets the <code>cell</code> value to zero:</p>
+<p>运行下面的命令调用clearall函数并验证cell变量重置为0</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call calc clearall</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>For example, the program displays output similar to the following:</p>
+<p>程序输出为</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1124,21 +1098,21 @@ For example, if a function takes an array, you might need to specify the number 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_stop_the_local_canister_execution_environment"><a class="anchor" href="#_stop_the_local_canister_execution_environment"></a>Stop the local canister execution environment</h2>
+<h2 id="_关闭本地网络"><a class="anchor" href="#_关闭本地网络"></a>关闭本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you finish experimenting with the dapp, you can stop the local canister execution environment  so that it does not continue running in the background.</p>
+<p>完成程序的测试后，可以关闭ICP网络</p>
 </div>
 <div class="paragraph">
-<p>To stop the local canister execution environment:</p>
+<p>关闭步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In the terminal that displays the operations, press Control-C to interrupt the process.</p>
+<p>打开显示网络活动的命令行，摁下Control-C命令终止本地网络进程</p>
 </li>
 <li>
-<p>Stop the local canister execution environment by running the following command:</p>
+<p>运行下面的命令终止网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx stop</code></pre>

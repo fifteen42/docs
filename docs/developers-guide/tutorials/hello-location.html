@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Pass text arguments :: 互联网计算机开发者文档</title>
+    <title>传递文本参数 :: 互联网计算机开发者文档</title>
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/search.css">
@@ -607,56 +607,54 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Pass text arguments</h1>
+<h1 class="page">传递文本参数</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This tutorial provides a simple variation on the default program that lets you pass a single text argument to a single actor, compile the code to create a canister smart contract, then retrieve the argument.
-Throughout this document, the terms canister smart contract and canister are considered synonymous.</p>
+<p>本章节会演示如何对默认程序进行简单的修改，来支持传递一个文本参数到一个actor，并编译创建canister获取参数。</p>
 </div>
 <div class="paragraph">
-<p>This tutorial illustrates how to pass arguments on the command-line in a terminal using the Candid interface description language (IDL) and how to modify the program to allow it to accept more than one value for the text argument.</p>
+<p>本章节讲解了如何在命令行中使用Candid接口描述语言（IDL）传递参数以及如何修改程序允许其接受多个文本参数。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_before_you_begin"><a class="anchor" href="#_before_you_begin"></a>Before you begin</h2>
+<h2 id="_开始之前"><a class="anchor" href="#_开始之前"></a>开始之前</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before you start this tutorial, verify the following:</p>
+<p>开始前，需要检查下面的问题</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>You have downloaded and installed the DFINITY Canister SDK package as described in <a href="../../quickstart/local-quickstart.html#download-and-install">Download and install</a>.</p>
+<p>已经按照 <a href="../../quickstart/local-quickstart.html#download-and-install">下载与安装</a>章节的步骤下载并安装了DFINITY Canister SDK 。</p>
 </li>
 <li>
-<p>You have stopped any canister execution environments running on the local
-computer.</p>
+<p>本地电脑上已经关闭了ICP网络进程。</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>This tutorial takes approximately 20 minutes to complete.</p>
+<p>本篇教程需要大概20分钟。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_new_project"><a class="anchor" href="#_create_a_new_project"></a>Create a new project</h2>
+<h2 id="_创建新项目"><a class="anchor" href="#_创建新项目"></a>创建新项目</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To create a new project for this tutorial:</p>
+<p>创建项目步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a terminal shell on your local computer, if you don’t already have one open.</p>
+<p>打开终端</p>
 </li>
 <li>
-<p>Change to the folder you are using for your 互联网计算机 projects, if you are using one.</p>
+<p>进入工作目录</p>
 </li>
 <li>
-<p>Create a new project by running the following command:</p>
+<p>运行下面的命令来创建项目</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx new location_hello</code></pre>
@@ -664,7 +662,7 @@ computer.</p>
 </div>
 </li>
 <li>
-<p>Change to your project directory by running the following command:</p>
+<p>进入项目目录</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd location_hello</code></pre>
@@ -676,55 +674,56 @@ computer.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_default_configuration"><a class="anchor" href="#_modify_the_default_configuration"></a>Modify the default configuration</h2>
+<h2 id="_修改默认配置"><a class="anchor" href="#_修改默认配置"></a>修改默认配置</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In the <a href="explore-templates.html">Explore the default project</a> tutorial, you saw that creating a new project adds a default <code>dfx.json</code> configuration file to your project directory.
-You should always review the default settings in the file to verify the information accurately reflects the project settings you want to use.
-For this tutorial, you&#8217;ll modify the default configuration to remove settings that aren&#8217;t used.</p>
+<p>在 <a href="explore-templates.html">探索默认项目</a> 章节, 已经介绍了创建新项目会添加一个dfx.json配置文件到项目目录。</p>
 </div>
 <div class="paragraph">
-<p>To modify settings in the <code>dfx.json</code> configuration file:</p>
+<p>在本章节中，需要修改一些默认配置。</p>
+</div>
+<div class="paragraph">
+<p>dfx.json配置修改步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>dfx.json</code> configuration file in a text editor.</p>
+<p>在编辑器中，打开 dfx.json 配置文件</p>
 </li>
 <li>
-<p>Check the default settings for the <code>location_hello</code> project.</p>
+<p>查看location_hello项目中的默认配置</p>
 </li>
 <li>
-<p>Remove all of the unnecessary configuration settings.</p>
+<p>删除所有的location_hello_assets配置</p>
 <div class="paragraph">
-<p>Because this tutorial does not involve creating any front-end assets, you can remove all of the <code>location_hello_assets</code> configuration settings from the file.</p>
+<p>本章节的示例程序无需使用如何前端资源，因此可以删除这些配置。</p>
 </div>
 </li>
 <li>
-<p>Save your changes and close the file to continue.</p>
+<p>保存并关闭配置文件继续</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_default_program"><a class="anchor" href="#_modify_the_default_program"></a>Modify the default program</h2>
+<h2 id="_修改默认程序"><a class="anchor" href="#_修改默认程序"></a>修改默认程序</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In the <a href="explore-templates.html">Explore the default project</a> tutorial, you saw that creating a new project creates a default <code>src</code> directory with a template <code>main.mo</code> file.</p>
+<p>在link:explore-templates.html[探索默认项目章节，已经介绍了创建新项目会创建一个默认的src目录，并包含一个main.mo程序模板文件。</p>
 </div>
 <div class="paragraph">
-<p>To modify the default template source code:</p>
+<p>源码修改步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>src/location_hello/main.mo</code> source code file in a text editor.</p>
+<p>编辑器中打开src/location_hello/main.mo 源码文件。</p>
 </li>
 <li>
-<p>Modify the default source code to replace the <code>greet</code> function with a <code>location</code> function and the <code>name</code> argument with a <code>city</code> argument.</p>
+<p>修改默认源码，用有city参数的location函数替换greet函数。</p>
 <div class="paragraph">
-<p>For example:</p>
+<p>例如：</p>
 </div>
 <div class="listingblock copy">
 <div class="content">
@@ -737,41 +736,40 @@ For this tutorial, you&#8217;ll modify the default configuration to remove setti
 </div>
 </li>
 <li>
-<p>Save your changes and close the file to continue.</p>
+<p>保存并关闭文件。</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_start_the_local_canister_execution_environment"><a class="anchor" href="#_start_the_local_canister_execution_environment"></a>Start the local canister execution environment</h2>
+<h2 id="_启动本地网络"><a class="anchor" href="#_启动本地网络"></a>启动本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before you can build your project, you need to connect to a local canister execution environment or the Internet Computer blockchain mainnet.</p>
+<p>开始构建项目前，需要连接到本地或远程 ICP 网络。</p>
 </div>
 <div class="paragraph">
-<p>Starting a canister execution environment locally requires a <code>dfx.json</code> file, so you should be sure you are in your project&#8217;s root directory.
-For this tutorial, you should have two separate terminal shells, so that you can start and see network operations in one terminal and manage your project in another.</p>
+<p>启动本地网络需要 dfx.json 文件，需要确认在项目根目录操作。在这篇教程中，建议开启 2 个终端，一个启动网络，另一个管理项目。</p>
 </div>
 <div class="paragraph">
-<p>To start the local canister execution environment:</p>
+<p>启动网络步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a new terminal window or tab on your local computer.</p>
+<p>打开新的终端</p>
 </li>
 <li>
-<p>Navigate to the root directory for your project, if necessary.</p>
+<p>进入项目根目录</p>
 <div class="openblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>You should now have <strong>two terminals</strong> open.</p>
+<p>此时会打开两个终端</p>
 </li>
 <li>
-<p>You should have the <strong>project directory</strong> as your <strong>current working directory</strong>.</p>
+<p>应该用项目目录做现在的工作目录</p>
 </li>
 </ul>
 </div>
@@ -779,46 +777,46 @@ For this tutorial, you should have two separate terminal shells, so that you can
 </div>
 </li>
 <li>
-<p>Start the canister execution environment on your local computer by running the following command:</p>
+<p>使用下面的命令启动 ICP 本地网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx start</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If you are prompted to allow or deny incoming network connections, click <strong>Allow</strong>.</p>
+<p>这时可能会有警告信息显示，这取决于使用的平台安全策略配置。这时请选择允许。</p>
 </div>
 </li>
 <li>
-<p>Leave the terminal that displays network operations open and switch your focus to your original terminal where you created your project.</p>
+<p>切换到项目终端</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_register_build_and_deploy_the_dapp"><a class="anchor" href="#_register_build_and_deploy_the_dapp"></a>Register, build, and deploy the dapp</h2>
+<h2 id="_注册构建并部署应用"><a class="anchor" href="#_注册构建并部署应用"></a>注册构建并部署应用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you connect to the local canister execution environment, you can register, build, and deploy your dapp locally.</p>
+<p>在开发环境中连接到本地ICP网络后，就可以在本地注册构建部署应用了。</p>
 </div>
 <div class="paragraph">
-<p>To deploy the dapp locally:</p>
+<p>部署应用步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in the root directory for your project, if needed.</p>
+<p>检查是否在项目根目录</p>
 </li>
 <li>
-<p>Register, build, and deploy your application by running the following command:</p>
+<p>注册构建并部署应用命令</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx deploy</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>dfx deploy</code> command output displays information about the operations it performs.</p>
+<p>命令会输出执行的操作信息</p>
 </div>
 </li>
 </ol>
@@ -826,26 +824,28 @@ For this tutorial, you should have two separate terminal shells, so that you can
 </div>
 </div>
 <div class="sect1">
-<h2 id="_pass_a_text_argument"><a class="anchor" href="#_pass_a_text_argument"></a>Pass a text argument</h2>
+<h2 id="_传递文本参数"><a class="anchor" href="#_传递文本参数"></a>传递文本参数</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You now have a program deployed as a <strong>canister smart contract</strong> in your local canister execution environment and can test your program by using <code>dfx canister call</code> commands.</p>
+<p>现在，项目已经部署到本地ICP网络，并且可以使用dfx canister call命令进行测试。</p>
 </div>
 <div class="paragraph">
-<p>To test the program you have deployed locally:</p>
+<p>测试部署的程序步骤如下</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Call the <code>location</code> method in the program and pass your <code>city</code> argument of type <code>text</code> by running the following command:</p>
+<p>运行下面命令来调用程序的location 方法并传递文本类型的city参数</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call location_hello location "San Francisco"</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Because the argument in this case includes a space between <code>San</code> and <code>Francisco</code>, you need to enclose the argument in quotes.
-The command displays output similar to the following:</p>
+<p>由于参数San和Francisco之间包含一个空格，需要给参数加引号。</p>
+</div>
+<div class="paragraph">
+<p>命令输出如下</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -853,7 +853,7 @@ The command displays output similar to the following:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>If the argument did not contain a space that required enclosing the text inside of quotation marks, you could allow the Candid interface description language to infer the data type like this:</p>
+<p>如果参数不包含空格，可以让Candid接口描述语言推断数据类型，例如</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -861,7 +861,7 @@ The command displays output similar to the following:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Candid infers the data type as <code>Text</code> and returns the output from your program as text like this:</p>
+<p>Candid推断Paris是一个文本类型，并返回相应输出：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -870,14 +870,14 @@ The command displays output similar to the following:</p>
 </div>
 </li>
 <li>
-<p>Call the <code>location</code> method in the program and pass your <code>city</code> argument explicitly using the Candid interface description language syntax for Text arguments:</p>
+<p>运行下面命令来调用程序的location 方法并显式地使用Candid接口描述语言规则来传递文本类型的city参数</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call location_hello location '("San Francisco and Paris")'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>命令输出如下：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -885,10 +885,10 @@ The command displays output similar to the following:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Because your program only accepts a single text argument, specifying multiple strings returns only the first argument.</p>
+<p>由于程序只接收一个文本参数，给出多个字符串只会使用第一个参数。</p>
 </div>
 <div class="paragraph">
-<p>For example, if you try this command:</p>
+<p>例如，如果运行下面的命令：</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -896,7 +896,7 @@ The command displays output similar to the following:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Only the first argument—<code>("Hello, San Francisco!")</code>—is returned.</p>
+<p>只有第一个参数，也就是 （“Hello，San Francisco！”）返回了</p>
 </div>
 </li>
 </ol>
@@ -904,28 +904,30 @@ The command displays output similar to the following:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_revise_the_source_code_in_your_program"><a class="anchor" href="#_revise_the_source_code_in_your_program"></a>Revise the source code in your program</h2>
+<h2 id="_修改程序源码"><a class="anchor" href="#_修改程序源码"></a>修改程序源码</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To extend what you have learned in this tutorial, you might want to try modifying the source code to return different results.
-For example, you might want to modify the <code>location</code> function to return multiple city names.</p>
+<p>为了充分理解本章节的内容，可以修改源码来尝试不同的结果。</p>
 </div>
 <div class="paragraph">
-<p>To experiment with modifying the source code for this tutorial:</p>
+<p>例如，可以修改location函数返回多个城市名称。</p>
+</div>
+<div class="paragraph">
+<p>修改代码实验步骤:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>dfx.json</code> configuration file in a text editor and change the default <code>location_hello</code> settings to <code>favorite_cities</code>.</p>
+<p>打开dfx.json配置文件，修改默认的location_hello设置为favorite_cities</p>
 <div class="paragraph">
-<p>For this step, you should modify both the canister name and the path to the main program for the canister smart contract to use <code>favorite_cities</code>.</p>
+<p>这个步骤中，canister名称和主程序路径都要使用favorite_cities</p>
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>dfx.json</code> file to continue.</p>
+<p>保存并关闭dfx.json文件</p>
 </li>
 <li>
-<p>Copy the <code>location_hello</code> source file directory to match the name specified in the <code>dfx.json</code> configuration file by running the following command:</p>
+<p>运行下面的命令复制location_hello源文件目录来匹配dfx.json配置文件</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cp -r src/location_hello src/favorite_cities</code></pre>
@@ -933,13 +935,10 @@ For example, you might want to modify the <code>location</code> function to retu
 </div>
 </li>
 <li>
-<p>Open the <code>src/favorite_cities/main.mo</code> file in a text editor.</p>
+<p>打开src/favorite_cities/main.mo文件</p>
 </li>
 <li>
-<p>Copy and paste the following code sample to replace the <code>location</code> function with two new functions.</p>
-<div class="paragraph">
-<p>For example:</p>
-</div>
+<p>复制粘贴下面的代码用2个新函数替换location函数</p>
 <div class="listingblock copy">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-motoko hljs" data-lang="motoko">actor {
@@ -959,12 +958,13 @@ For example, you might want to modify the <code>location</code> function to retu
 </div>
 </div>
 <div class="paragraph">
-<p>You might notice that <code>Text</code> in this code example is enclosed by square (<code>[ ]</code>) brackets. By itself, <code>Text</code> represents a collection of UTF-8 characters.
-The square brackets around a type indicate that it is an <strong>array</strong> of that type.
-In this context, therefore, <code>[Text]</code> indicates an array of a collection of UTF-8 characters, enabling the program to accept and return multiple text strings.</p>
+<p>注意代码中的Text被中括号包裹。在这里，Text代表UTF-8字符集。被中括号包裹的类型表示这是该类型的数组。</p>
 </div>
 <div class="paragraph">
-<p>The code sample also uses the basic format of an <code>apply</code> operation for the array, which can be abstracted as:</p>
+<p>在这里，[Text]代表UTF-8字符集类型的数组，允许程序接收并返回多个字符串。</p>
+</div>
+<div class="paragraph">
+<p>对array使用apply操作的示例代码如下</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -978,12 +978,11 @@ In this context, therefore, <code>[Text]</code> indicates an array of a collecti
 </div>
 </div>
 <div class="paragraph">
-<p>For information about the functions that perform operations on arrays, see the description of the Array module in the Motoko base library or the <em>Motoko Programming Language Reference</em>.
-For another example focused on the use of arrays, see <a href="https://github.com/dfinity/examples/tree/master/motoko/quicksort">Quicksort</a> in the <a href="https://github.com/dfinity/examples/">examples</a> repository.</p>
+<p>想了解更多关于数组相关操作的内容，请查看Moto编程语言参考中的数组模块。在快速开始的示例部分也有数组使用的示例。</p>
 </div>
 </li>
 <li>
-<p>Register, build, and deploy the dapp by running the following command:</p>
+<p>运行下面的命令注册构建并部署应用</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx deploy</code></pre>
@@ -991,18 +990,17 @@ For another example focused on the use of arrays, see <a href="https://github.co
 </div>
 </li>
 <li>
-<p>Call the <code>location</code> method in the program and pass your <code>city</code> argument using the Candid interface description syntax by running the following command:</p>
+<p>运行下面的命令调用location方法并使用Candid接口描述规则传递city参数</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call favorite_cities location '(vec {"San Francisco";"Paris";"Rome"})'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command uses the Candid interface description syntax <code>(vec { val1; val2; val3; })</code> to return a vector of values.
-For more information about the Candid interface description language, see the <a href="../../candid-guide/candid-intro.html">Candid</a> language guide.</p>
+<p>命令使用Candid接口描述规则(vec { val1; val2; val3; }) 来返回一组值。需要更多关于Candid接口描述语言的信息，请查看Candid语言章节。</p>
 </div>
 <div class="paragraph">
-<p>This command displays output similar to the following:</p>
+<p>命令输出示例：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1011,14 +1009,14 @@ For more information about the Candid interface description language, see the <a
 </div>
 </li>
 <li>
-<p>Call the <code>location_pretty</code> method in the program and pass your <code>city</code> argument using the interface description syntax by running the following command:</p>
+<p>运行下面的命令调用location_pretty方法并使用Candid接口描述规则传递city参数</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call favorite_cities location_pretty '(vec {"San Francisco";"Paris";"Rome"})'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>命令输出：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1140,21 +1138,21 @@ For example, if a function takes an array, you might need to specify the number 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_stop_the_local_canister_execution_environment"><a class="anchor" href="#_stop_the_local_canister_execution_environment"></a>Stop the local canister execution environment</h2>
+<h2 id="_关闭本地网络"><a class="anchor" href="#_关闭本地网络"></a>关闭本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you finish experimenting with your program, you can stop the local canister execution environment so that it doesn’t continue running in the background.</p>
+<p>完成程序的测试后，可以关闭ICP网络。</p>
 </div>
 <div class="paragraph">
-<p>To stop the local canister execution environment:</p>
+<p>关闭步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In the terminal that displays network operations, press Control-C to interrupt the local process.</p>
+<p>打开显示网络活动的命令行，摁下Control-C命令终止本地网络进程。</p>
 </li>
 <li>
-<p>Stop the canister execution environment by running the following command:</p>
+<p>运行下面的命令终止网络。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx stop</code></pre>
