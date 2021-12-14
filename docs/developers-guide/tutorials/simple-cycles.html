@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Accept cycles from a wallet :: 互联网计算机开发者文档</title>
+    <title>从钱包接受cycles :: 互联网计算机开发者文档</title>
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/search.css">
@@ -607,73 +607,73 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Accept cycles from a wallet</h1>
+<h1 class="page">从钱包接受cycles</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>When you are doing local development, you can use the default wallet in your project to send cycles and check your cycle balance.
-But what about the canister smart contracts that need to receive and use those cycles, e.g. to execute their functions and provide services to users?
-This tutorial provides a simple example to illustrate how you might add the functions to receive cycles and check your cycle balance to the default template program.</p>
+<p>在进行本地开发时，可以使用项目中的默认钱包发送Cycles并检查余额。 但是关于需要接收和燃烧这些Cycles以执行功能并向用户提供服务是如何工作的呢？</p>
 </div>
 <div class="paragraph">
-<p>This example consists of the following:</p>
+<p>本教程提供了一个简单的示例，以说明如何添加功能以接收Cycles并检查余额。</p>
+</div>
+<div class="paragraph">
+<p>此示例包括以下内容：</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The <code>wallet_balance</code> function enables you to check the current cycle balance for the canister.</p>
+<p>wallet_balance函数使您可以检查Canister的当前Cycles余额。</p>
 </li>
 <li>
-<p>The <code>wallet_receive</code> function enables the program to accept cycles that are sent to the canister.</p>
+<p>wallet_receive函数使程序能够接受发送到Canister的Cycles。</p>
 </li>
 <li>
-<p>The <code>greet</code> function accepts a text argument and displays a greeting in a terminal.</p>
+<p>greet函数接受文本参数，并在终端中显示问候语。</p>
 </li>
 <li>
-<p>The <code>owner</code> function returns the principal used by the message caller.</p>
+<p>owner函数返回消息调用者使用的账户。</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_before_you_begin"><a class="anchor" href="#_before_you_begin"></a>Before you begin</h2>
+<h2 id="_开始之前"><a class="anchor" href="#_开始之前"></a>开始之前</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before starting the tutorial, verify the following:</p>
+<p>在开始本教程之前，请确保具备以下开发条件</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>You have downloaded and installed the DFINITY Canister SDK package as described in <a href="../../quickstart/local-quickstart.html#download-and-install">Download and install</a>.</p>
+<p>您已下载并安装 DFINITY Canister SDK 扩展包， <a href="../../quickstart/local-quickstart.html#download-and-install">安装说明</a>。</p>
 </li>
 <li>
-<p>You have installed the Visual Studio Code plugin for Motoko as described in <a href="../../quickstart/local-quickstart.html#install-vscode">Install the language editor plug-in</a> if you are using Visual Studio Code as your IDE.</p>
+<p>如果您使用 Visual Studio Code 开发，请确保安装了 Motoko 语言的相关插件，<a href="../../quickstart/local-quickstart.html#install-vscode">安装说明</a>。</p>
 </li>
 <li>
-<p>You have stopped any local canister execution environment running on the local
-computer.</p>
+<p>确保本地开发环境中，已关停全部的网络进程。</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_new_project"><a class="anchor" href="#_create_a_new_project"></a>Create a new project</h2>
+<h2 id="_创建新项目"><a class="anchor" href="#_创建新项目"></a>创建新项目</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To create a new project directory for testing access control and switching user identities:</p>
+<p>执行以下操作创建新的项目目录：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a terminal shell on your local computer, if you don’t already have one open.</p>
+<p>打开终端。</p>
 </li>
 <li>
-<p>Change to the folder you are using for your 互联网计算机 projects, if you are using one.</p>
+<p>进入工作目录。</p>
 </li>
 <li>
-<p>Create a new project by running the following command:</p>
+<p>通过运行以下命令来创建一个新项目</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx new cycles_hello</code></pre>
@@ -681,7 +681,7 @@ computer.</p>
 </div>
 </li>
 <li>
-<p>Change to your project directory by running the following command:</p>
+<p>进入项目目录。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd cycles_hello</code></pre>
@@ -693,21 +693,18 @@ computer.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_default_program"><a class="anchor" href="#_modify_the_default_program"></a>Modify the default program</h2>
+<h2 id="_修改默认程序"><a class="anchor" href="#_修改默认程序"></a>修改默认程序</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For this tutorial, you are going to modify the template source code to include new functions for accepting cycles and checking the cycle balance.</p>
-</div>
-<div class="paragraph">
-<p>To modify the default program:</p>
+<p>在本教程中，您将修改模板源代码，以包含用于接受Cycles和检查余额的新功能。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>src/cycles_hello/main.mo</code> file in a text editor and delete the existing content.</p>
+<p>在文本编辑器中打开src/cycles_hello/main.mo文件，然后删除现有内容。</p>
 </li>
 <li>
-<p>Copy and paste the following sample code into the file:</p>
+<p>将以下示例代码复制并粘贴到文件中。</p>
 <div class="listingblock copy">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-motoko hljs" data-lang="motoko">import Nat64 "mo:base/Nat64";
@@ -752,23 +749,23 @@ shared(msg) actor class HelloCycles (
 </div>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s take a look at a few key elements of this program:</p>
+<p>让我们看一下该程序的一些关键要素：</p>
 </div>
 <div class="openblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>The program imports a Motoko base library—<code>ExperimentalCycles</code>—that provides basic functions for working with cycles.</p>
+<p>该程序导入Motoko基础库ExperimentalCycles，该库提供处理Cycles的基本功能。</p>
 </li>
 <li>
-<p>The program uses an <code>actor class</code> instead of a single actor so that it can have multiple actor instances to accept different cycle amounts up to a <code>capacity</code> for all instances.</p>
+<p>该程序使用一个actor类，而不是单个actor，以便它可以具有多个actor实例，以接受不同的Cycles数量，直至所有实例的容量。</p>
 </li>
 <li>
-<p>The <code>capacity</code> is passed as an argument to the actor class.</p>
+<p>容量作为参数传递给actor类。</p>
 </li>
 <li>
-<p>The <code>msg.caller</code> identifies the principal associated with the call.</p>
+<p>msg.caller标识与该调用关联的账户。</p>
 </li>
 </ul>
 </div>
@@ -776,71 +773,67 @@ shared(msg) actor class HelloCycles (
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>main.mo</code> file to continue.</p>
+<p>保存并关闭文件。</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_start_the_local_canister_execution_environment"><a class="anchor" href="#_start_the_local_canister_execution_environment"></a>Start the local canister execution environment</h2>
+<h2 id="_启动本地网络"><a class="anchor" href="#_启动本地网络"></a>启动本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before you can build the <code>access_hello</code> project, you need to connect to the canister execution environment running locally in your development environment, or you need to connect toa subnet that you can access.</p>
+<p>开始构建项目前，需要连接到本地或远程 ICP 网络。</p>
 </div>
 <div class="paragraph">
-<p>To start the local canister execution environment:</p>
+<p>启动本地网络需要 dfx.json 文件，需要确认在项目根目录进行操作。在这篇教程中，建议开启 2 个终端，一个启动网络，另一个管理项目。</p>
+</div>
+<div class="paragraph">
+<p>启动网络步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a new terminal window or tab on your local computer.</p>
+<p>打开新的终端。</p>
 </li>
 <li>
-<p>Navigate to the root directory for your project, if necessary.</p>
+<p>进入项目根目录。</p>
 </li>
 <li>
-<p>Start the local canister execution environment on your machine by running the following command:</p>
+<p>使用下面的命令启动 ICP 本地网络。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx start --clean --background</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>After the local canister execution environment completes its startup operations, you can continue to the next step.</p>
-</div>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_register_build_and_deploy_the_dapp"><a class="anchor" href="#_register_build_and_deploy_the_dapp"></a>Register, build, and deploy the dapp</h2>
+<h2 id="_注册构建并部署应用"><a class="anchor" href="#_注册构建并部署应用"></a>注册构建并部署应用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you connect to the local canister execution environment, you can register, build, and deploy your dapp locally.</p>
-</div>
-<div class="paragraph">
-<p>To deploy the dapp locally:</p>
+<p>连接到本地开发环境的Internet Computer网络后，可以在本地注册，构建和部署应用程序。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in the root directory for your project, if needed.</p>
+<p>进入项目根目录。</p>
 </li>
 <li>
-<p>Register, build, and deploy your dapp by running the following command:</p>
+<p>通过运行以下命令来注册，构建和部署您的应用程序。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx deploy --argument '(360000000000)'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This example sets the <code>capacity</code> for the canister to 360,000,000,000 cycles.
-The <code>dfx deploy</code> command output then displays information about the operations it performs, including the identity associated with the wallet canister created for this local project and the wallet canister identifier.</p>
+<p>本示例将Canister的容量设置为360,000,000,000个Cycles。 dfx deploy命令输出显示有关其执行的操作的信息，包括与为此本地项目创建的钱包Canister关联的标识以及钱包Canister标识符。</p>
 </div>
 <div class="paragraph">
-<p>For example:</p>
+<p>例如：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -870,25 +863,22 @@ Deployed canisters.</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_test_the_dapp"><a class="anchor" href="#_test_the_dapp"></a>Test the dapp</h2>
+<h2 id="_测试应用"><a class="anchor" href="#_测试应用"></a>测试应用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you have deployed the dapp on your local canister execution environment, you can experiment with the wallet functions and test your program by using <code>dfx canister call</code> commands.</p>
-</div>
-<div class="paragraph">
-<p>To test the dapp:</p>
+<p>在本地Internet Computer网络上部署该应用程序之后，您可以使用dfx canister call命令尝试钱包功能并测试程序。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check the principal for the <code>default</code> user identity by running the following command:</p>
+<p>通过运行以下命令，检查账户以获取默认用户身份。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call cycles_hello owner</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following for the current identity:</p>
+<p>该命令针对当前身份显示类似于以下内容的输出：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -896,19 +886,19 @@ Deployed canisters.</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If you haven&#8217;t made changes to the identity you were using to run the <code>dfx deploy</code> command, you should get the same principal by running the <code>dfx identity get-principal</code> command.
-This is important because you must be the owner of the wallet canister to perform certain tasks such as sending cycles or granting other <strong>custodian</strong> identities permission to send cycles.</p>
+<p>如果您尚未更改用于运行dfx deploy命令的身份，则应通过运行dfx identity get-principal命令获得相同的账户。
+这很重要，因为您必须是钱包Canister的所有者才能执行某些任务，例如Cycles周期或授予其他保管者身份发送Cycles的权限。</p>
 </div>
 </li>
 <li>
-<p>Check the initial wallet cycle balance by running the following command:</p>
+<p>通过运行以下命令检查初始钱包Cycles余额。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call cycles_hello wallet_balance</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You haven&#8217;t sent any cycles to the canister, so the command displays the following balance:</p>
+<p>您尚未向Canister发送任何Cycles，因此该命令显示以下余额：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -917,7 +907,7 @@ This is important because you must be the owner of the wallet canister to perfor
 </div>
 </li>
 <li>
-<p>Send some cycles from your default wallet canister to the <code>cycles_hello</code> canister using the canister principal by running a command similar to the following:</p>
+<p>通过运行类似以下命令，从默认的钱包Canister发送到cycles_hello。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call rwlgt-iiaaa-aaaaa-aaaaa-cai wallet_send '(record { canister = principal "rrkah-fqaaa-aaaaa-aaaaq-cai"; amount = (256000000000:nat64); } )'</code></pre>
@@ -925,14 +915,14 @@ This is important because you must be the owner of the wallet canister to perfor
 </div>
 </li>
 <li>
-<p>Call the <code>wallet_balance</code> function to see that the <code>cycles_hello</code> canister has the number of cycles you transferred, if you specified an amount under the allowed capacity, or the <code>capacity</code> you specified when you ran the <code>dfx deploy</code> command.</p>
+<p>调用wallet_balance函数，以查看cycles_hello Canister具有的Cycles数量。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call cycles_hello wallet_balance</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>该命令显示的输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -941,15 +931,17 @@ This is important because you must be the owner of the wallet canister to perfor
 </div>
 </li>
 <li>
-<p>Call the <code>wallet_balance</code> function to see the number of cycles in your default wallet by running a command similar to the following:</p>
+<p>通过运行类似于以下命令，调用wallet_balance函数以查看默认钱包中的Cycles数。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call rwlgt-iiaaa-aaaaa-aaaaa-cai wallet_balance</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command returns the balance for the wallet canister identifier you specified as a record using Candid format.
-For example, the command might display a record with an <code>amount</code> field (represented by the hash <code>3_573_748_184</code>) and a balance of 97,738,624,621,042 cycles like this:</p>
+<p>该命令使用Candid格式返回钱包Canister的余额记录。</p>
+</div>
+<div class="paragraph">
+<p>例如，该命令可能显示一条记录，其中包含金额字段（由哈希3_573_748_184表示），余额为97,738,624,621,042个Cycles，如下所示：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -957,11 +949,11 @@ For example, the command might display a record with an <code>amount</code> fiel
 </div>
 </div>
 <div class="paragraph">
-<p>For this simple tutorial, cycles are only consumed from the balance in the default wallet canister, not from the <code>cycles_hello</code> canister.</p>
+<p>对于这个简单的教程，Cycles仅从默认钱包Canister中的余额中消耗，而不是从cycles_hello Canister中消耗。</p>
 </div>
 </li>
 <li>
-<p>Call the <code>greet</code> function by running a command similar to the following:</p>
+<p>通过运行类似于以下命令的命令来调用greet函数。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call cycles_hello greet '("from DFINITY")'</code></pre>
@@ -969,14 +961,14 @@ For example, the command might display a record with an <code>amount</code> fiel
 </div>
 </li>
 <li>
-<p>Rerun the call to the <code>wallet_balance</code> function to see the number of cycles deducted from your default wallet:</p>
+<p>重新调用wallet_balance函数，以查看从默认钱包中扣除的Cycles数。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call rwlgt-iiaaa-aaaaa-aaaaa-cai wallet_balance</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>For example, you might a result similar to this:</p>
+<p>例如，您可能会得到类似以下的结果：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -989,21 +981,21 @@ For example, the command might display a record with an <code>amount</code> fiel
 </div>
 </div>
 <div class="sect1">
-<h2 id="_stop_the_local_canister_execution_environment"><a class="anchor" href="#_stop_the_local_canister_execution_environment"></a>Stop the local canister execution environment</h2>
+<h2 id="_关闭本地网络"><a class="anchor" href="#_关闭本地网络"></a>关闭本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you finish experimenting with the program, you can stop the local canister execution environment  so that it doesn&#8217;t continue running in the background.</p>
+<p>完成程序的测试后，可以关闭ICP网络。</p>
 </div>
 <div class="paragraph">
-<p>To stop the local canister execution environment:</p>
+<p>关闭步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In the terminal that displays the operations, press Control-C to interrupt the process.</p>
+<p>打开显示网络活动的命令行，摁下Control-C命令终止本地网络进程。</p>
 </li>
 <li>
-<p>Stop the local canister execution environment by running the following command:</p>
+<p>运行下面的命令终止网络。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx stop</code></pre>
@@ -1015,27 +1007,27 @@ For example, the command might display a record with an <code>amount</code> fiel
 </div>
 </div>
 <div class="sect1">
-<h2 id="_want_to_learn_more"><a class="anchor" href="#_want_to_learn_more"></a>Want to learn more?</h2>
+<h2 id="_更多内容"><a class="anchor" href="#_更多内容"></a>更多内容</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you are looking for more information about working with cycles, check out the following related resources:</p>
+<p>如果您正在寻找有关使用Cycles的更多信息，请查看以下相关资源</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="../concepts/tokens-cycles.html">Tokens and cycles (overview)</a></p>
+<p><a href="../concepts/tokens-cycles.html">代币和Cycles（概述）</a></p>
 </li>
 <li>
-<p><a href="../cli-reference/dfx-identity.html">dfx identity (command reference)</a></p>
+<p><a href="../cli-reference/dfx-identity.html">dfx身份（命令参考）</a></p>
 </li>
 <li>
-<p><a href="../working-with-canisters.html#set-owner">Set an identity to own a canister (how-to)</a></p>
+<p><a href="../working-with-canisters.html#set-owner">设置身份以拥有一个Canister（手把手）</a></p>
 </li>
 <li>
-<p><a href="../../language-guide/cycles.html">Managing cycles (language reference)</a></p>
+<p><a href="../../language-guide/cycles.html">管理Cycles（语言参考）</a></p>
 </li>
 <li>
-<p><a href="../../base-libraries/ExperimentalCycles.html">ExperimentalCycles (base module)</a></p>
+<p><a href="../../base-libraries/ExperimentalCycles.html">试验Cycles（基本模块）</a></p>
 </li>
 </ul>
 </div>
