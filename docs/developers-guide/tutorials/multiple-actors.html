@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Use multiple actors :: 互联网计算机开发者文档</title>
+    <title>使用多个actor :: 互联网计算机开发者文档</title>
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/search.css">
@@ -607,36 +607,33 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Use multiple actors</h1>
+<h1 class="page">使用多个actor</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this tutorial, you are going to create a project with multiple actors.
-Currently, you can only define one actor in a Motoko file and a single actor is always compiled to a single canister smart contract.
-You can, however, create <strong>projects</strong> that have multiple actors and can build multiple canisters from the same <code>dfx.json</code> configuration file.</p>
+<p>在本章节中，将会创建一个由多个actor的项目。到目前为止，我们只在一个Motoko文件中定义一个actor，并且一个actor会编译到一个canister。我们也可以创建一个由多个actor的项目并且从一个dfx.json构建多个canister。</p>
 </div>
 <div class="paragraph">
-<p>For this tutorial, you are going to create separate program files for three actors in the same project.
-This project defines the following unrelated actors:</p>
+<p>在本章节中，你将在同一个项目中创建单独的程序文件，并包含3个actor。这个项目定义了以下不相关的actor</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The <code>assistant</code> actor provides functions to add and show tasks in a to-do list.</p>
+<p>assistant actor提供to-do list的添加和查看任务的函数</p>
 <div class="paragraph">
-<p>For simplicity, the code sample for this tutorial only includes the functions to add to-do items and to show the current list of to-do items that have been added. A more complete version of this canister—with additional functions for marking items as complete and removing items from the list—is available in the <a href="https://github.com/dfinity/examples/">examples</a> repository as <a href="https://github.com/dfinity/examples/tree/master/motoko/simple-to-do">Simple to-do checklist</a>.</p>
+<p>为了简单，本教程的示例代码只包含添加to-do list任务和查看已添加任务的功能。本程序更完整的版本-有更多功能比如标记任务完成和从to-do list删除任务-可以在<a href="https://github.com/dfinity/examples/">examples</a> 代码库的 <a href="https://github.com/dfinity/examples/tree/master/motoko/simple-to-do">Simple to-do checklist</a>查看。</p>
 </div>
 </li>
 <li>
-<p>The <code>rock_paper_scissors</code> actor provides a function for determining a winner in a hard-coded rock-paper-scissors contest.</p>
+<p>rock_paper_scissors actor 提供硬编码的"石头剪刀布"比赛中决定赢家的函数。</p>
 <div class="paragraph">
-<p>This code sample illustrates the basic use of <code>switch</code> and <code>case</code> in a Motoko program with hard-coded players and choices.</p>
+<p>这个示例代码描述了在Motoko中switch和case的用法</p>
 </div>
 </li>
 <li>
-<p>The <code>daemon</code> actor provides mock functions for starting and stopping a daemon.</p>
+<p>daemon actor提供了启动和结束守护进程的模拟函数。</p>
 <div class="paragraph">
-<p>This code sample simply assigns a variable and prints messages for demonstration purposes.</p>
+<p>这个示例代码会简单地赋值一个变量并打印演示信息。</p>
 </div>
 </li>
 </ul>
@@ -644,42 +641,40 @@ This project defines the following unrelated actors:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_before_you_begin"><a class="anchor" href="#_before_you_begin"></a>Before you begin</h2>
+<h2 id="_开始之前"><a class="anchor" href="#_开始之前"></a>开始之前</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before starting the tutorial, verify the following:</p>
+<p>开始前，需要检查下面的问题</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>You have downloaded and installed the DFINITY Canister SDK package as described in <a href="../../quickstart/local-quickstart.html#download-and-install">Download and install</a>.</p>
+<p>已经按照<a href="../../quickstart/local-quickstart.html#download-and-install">下载与安装</a>章节的步骤下载并安装了DFINITY Canister SDK</p>
 </li>
 <li>
-<p>You have stopped any local canister execution environment running on your computer.</p>
+<p>本地电脑上已经关闭了ICP网络进程
+本篇教程需要大概20分钟。</p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p>This tutorial takes approximately 20 minutes to complete.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_new_project"><a class="anchor" href="#_create_a_new_project"></a>Create a new project</h2>
+<h2 id="_创建新项目"><a class="anchor" href="#_创建新项目"></a>创建新项目</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To create a new project for this tutorial:</p>
+<p>创建项目步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a terminal shell on your local computer, if you don’t already have one open.</p>
+<p>打开终端</p>
 </li>
 <li>
-<p>Change to the folder you are using for your 互联网计算机 projects, if you are using one.</p>
+<p>进入工作目录</p>
 </li>
 <li>
-<p>Create a new project by running the following command:</p>
+<p>行下面的命令来创建项目</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx new multiple_actors</code></pre>
@@ -687,7 +682,7 @@ This project defines the following unrelated actors:</p>
 </div>
 </li>
 <li>
-<p>Change to your project directory by running the following command:</p>
+<p>进入项目目录</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd multiple_actors</code></pre>
@@ -699,21 +694,20 @@ This project defines the following unrelated actors:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_default_configuration"><a class="anchor" href="#_modify_the_default_configuration"></a>Modify the default configuration</h2>
+<h2 id="_修改默认配置"><a class="anchor" href="#_修改默认配置"></a>修改默认配置</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You have already seen that creating a new project adds a default <code>dfx.json</code> configuration file to your project directory.
-For this tutorial, you need to add sections to this file to specify the location of each canister that defines an actor you want to build.</p>
+<p>在探索默认项目章节，已经介绍了创建新项目会添加一个dfx.json配置文件到项目目录。在本章节中，需要修改一些默认配置指定定义actor的程序位置。</p>
 </div>
 <div class="paragraph">
-<p>To modify the default <code>dfx.json</code> configuration file:</p>
+<p>dfx.json配置修改步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>dfx.json</code> configuration file in a text editor, then change the default <code>multiple_actors</code> canister name and source directory to <code>assistant</code>.</p>
+<p>在编辑器中，打开 dfx.json 配置文件，然后修改默认的multiple_actors canister名称和源码目录为assistant。</p>
 <div class="paragraph">
-<p>For example, under the <code>canisters</code> key:</p>
+<p>例如，在canisters键：</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -724,16 +718,16 @@ For this tutorial, you need to add sections to this file to specify the location
 </div>
 </div>
 <div class="paragraph">
-<p>Because you are going to add settings to this <code>canisters</code> section of the configuration file, you must also add a <strong>comma</strong> after the curly brace that encloses the location of the <code>assistant</code> main source code file and the canister type.</p>
+<p>由于你已经在配置文件中添加了这个canisters的设置，你必须要在大括号后面添加一个逗号来包裹assistant的配置。</p>
 </div>
 </li>
 <li>
-<p>Remove the <code>multiple_actors_assets</code> section from the file.</p>
+<p>删除文件中的multiple_actors_assets部分</p>
 </li>
 <li>
-<p>Add a new canister name, source code location, and canister type for the <code>rock_paper_scissors</code> canister and a new canister name, source code location, and canister type for the <code>daemon</code> program files below the <code>assistant</code> canister definition.</p>
+<p>为rock_paper_scissors和daemon程序添加新的canister名称，源码位置和类型</p>
 <div class="paragraph">
-<p>After making the changes, the <code>canisters</code> section of the <code>dfx.json</code> file should look similar to this:</p>
+<p>修改后的配置文件如下</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -768,15 +762,12 @@ For this tutorial, you need to add sections to this file to specify the location
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>You can leave the other sections as-is.</p>
-</div>
 </li>
 <li>
-<p>Save your changes and close the <code>dfx.json</code> file to continue.</p>
+<p>保存并关闭配置文件继续</p>
 </li>
 <li>
-<p>Change the name of the default source file directory to match the name specified in the <code>dfx.json</code> configuration file by running the following command:</p>
+<p>运行下面的命令修改默认源码文件名称匹配dfx.json文件中的配置</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cp -r src/multiple_actors/ src/assistant/</code></pre>
@@ -784,7 +775,7 @@ For this tutorial, you need to add sections to this file to specify the location
 </div>
 </li>
 <li>
-<p>Copy the <code>assistant</code> source file directory to create the main canister file for the <code>rock_paper_scissors</code> actor by running the following command:</p>
+<p>运行下面的命令复制assistant源码文件目录为rock_paper_scissors acotr创建主程序文件</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cp -r src/assistant/ src/rock_paper_scissors/</code></pre>
@@ -792,7 +783,7 @@ For this tutorial, you need to add sections to this file to specify the location
 </div>
 </li>
 <li>
-<p>Copy the <code>assistant</code> source file directory to create the main canister file for the <code>daemon</code> actor by running the following command:</p>
+<p>运行下面的命令复制assistant源码文件目录为daemon创建主程序文件</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cp -r src/assistant/ src/daemon/</code></pre>
@@ -804,22 +795,21 @@ For this tutorial, you need to add sections to this file to specify the location
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_default_canisters"><a class="anchor" href="#_modify_the_default_canisters"></a>Modify the default canisters</h2>
+<h2 id="_修改默认程序"><a class="anchor" href="#_修改默认程序"></a>修改默认程序</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You now have three separate directories in the <code>src</code> directory, each with a template <code>main.mo</code> file.
-For this tutorial, you will replace the content in each template <code>main.mo</code> file with a different actor.</p>
+<p>现在src目录有三个独立的目录，每个都包含main.mo模板文件。本章节中，你需要用不同的actor替换每个main.mo文件。‌</p>
 </div>
 <div class="paragraph">
-<p>To modify the default source code:</p>
+<p>修改源码步骤如下:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>src/assistant/main.mo</code> file in a text editor and delete the existing content.</p>
+<p>打开src/assistant/main.mo文件并删除已有内容</p>
 </li>
 <li>
-<p>Copy and paste the following sample code into the file:</p>
+<p>复制粘贴下面的代码</p>
 <div class="listingblock copy">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-motoko hljs" data-lang="motoko">import Array "mo:base/Array";
@@ -872,13 +862,13 @@ actor Assistant {
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>main.mo</code> file to continue.</p>
+<p>保存并关闭main.mo文件</p>
 </li>
 <li>
-<p>Open the <code>src/rock_paper_scissors/main.mo</code> file in a text editor and delete the existing content.</p>
+<p>打开src/rock_paper_scissors/main.mo文件并删除已有内容</p>
 </li>
 <li>
-<p>Copy and paste the following sample code into the file:</p>
+<p>复制粘贴下面的代码</p>
 <div class="listingblock copy">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-motoko hljs" data-lang="motoko">import I "mo:base/Iter";
@@ -941,13 +931,13 @@ actor RockPaperScissors {
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>main.mo</code> file to continue.</p>
+<p>保存并关闭main.mo文件</p>
 </li>
 <li>
-<p>Open the <code>src/daemon/main.mo</code> file in a text editor and delete the existing content.</p>
+<p>打开src/daemon/main.mo文件并删除已有内容</p>
 </li>
 <li>
-<p>Copy and paste the following sample code into the file:</p>
+<p>复制粘贴下面的代码</p>
 <div class="listingblock copy">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-motoko hljs" data-lang="motoko">actor Daemon {
@@ -967,31 +957,34 @@ actor RockPaperScissors {
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>main.mo</code> file to continue.</p>
+<p>保存并关闭main.mo文件</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_start_the_local_canister_execution_environment"><a class="anchor" href="#_start_the_local_canister_execution_environment"></a>Start the local canister execution environment</h2>
+<h2 id="_保存并关闭main_mo文件"><a class="anchor" href="#_保存并关闭main_mo文件"></a>保存并关闭main.mo文件</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before you can install the <code>multiple_actors</code> project locally, you need to start your local canister execution environment. If you intend to deploy it to the 互联网计算机 blockchain mainnet, then you can skip this section.</p>
+<p>开始构建项目前，需要连接到本地或远程 ICP 网络。</p>
 </div>
 <div class="paragraph">
-<p>To start the local canister execution environment:</p>
+<p>启动本地网络需要 dfx.json 文件，需要确认在项目根目录操作。在这篇教程中，建议开启 2 个终端，一个启动网络，另一个管理项目。</p>
+</div>
+<div class="paragraph">
+<p>启动网络步骤:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a new terminal window or tab on your local computer.</p>
+<p>打开新的终端</p>
 </li>
 <li>
-<p>Navigate to the root directory for your project, if necessary.</p>
+<p>进入项目根目录</p>
 </li>
 <li>
-<p>Start the local canister execution environment by running the following command:</p>
+<p>使用下面的命令启动 ICP 本地网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx start</code></pre>
@@ -999,28 +992,28 @@ actor RockPaperScissors {
 </div>
 </li>
 <li>
-<p>Leave the terminal that displays canister execution operations open and switch your focus to your original terminal where you created your new project.</p>
+<p>切换到项目终端</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_deploy_your_multi_canister_dapp"><a class="anchor" href="#_deploy_your_multi_canister_dapp"></a>Deploy your multi-canister dapp</h2>
+<h2 id="_注册构建并部署应用"><a class="anchor" href="#_注册构建并部署应用"></a>注册构建并部署应用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To deploy the multi-canister dapp you need to register, build, and install the canisters either to the local canister execution environment or to the 互联网计算机 blockchain mainnet.</p>
+<p>在开发环境中连接到本地ICP网络后，就可以在本地注册构建部署应用了。</p>
 </div>
 <div class="paragraph">
-<p>To deploy the dapp locally:</p>
+<p>部署本地应用步骤:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in the root directory for your project, if needed.</p>
+<p>检查是否在项目根目录</p>
 </li>
 <li>
-<p>Register, build, and deploy the application by running the following command:</p>
+<p>注册构建并部署应用命令</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx deploy</code></pre>
@@ -1030,26 +1023,18 @@ actor RockPaperScissors {
 </ol>
 </div>
 <div class="paragraph">
-<p>To deploy the dapp to the 互联网计算机 blockchain mainnet:</p>
+<p>如果你可以访问远程ICP网络，你可以使用&#8212;&#8203;netowrk选项和dfx.json文件中定义的网络配置指定要部署的网络。</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Check that you are still in the root directory for your project, if needed.</p>
-</li>
-<li>
-<p>Run <code>dfx deploy</code> command specifying the <code>--network</code> option and the network alias configured in the <code>dfx.json</code> file. For example, if you are connecting to the 互联网计算机 mainnet using to the URL specified by the network alias <code>ic</code> you would run a command similar the following:</p>
+<div class="paragraph">
+<p>例如，如果你连接到了ic指定的网络，可以运行下面的命令：</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx deploy --network ic</code></pre>
 </div>
 </div>
-</li>
-</ol>
-</div>
 <div class="paragraph">
-<p>The <code>dfx deploy</code> command output displays information about the operations it performs.
-For example, the command displays the specific canister identifiers for the three canisters defined in the <code>dfx.json</code> configuration file.</p>
+<p>dfx deploy命令会输出执行的操作信息，例如</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1066,18 +1051,18 @@ Creating canister "rock_paper_scissors"...
 </div>
 </div>
 <div class="sect1">
-<h2 id="_verify_deployment_by_calling_the_canisters"><a class="anchor" href="#_verify_deployment_by_calling_the_canisters"></a>Verify deployment by calling the canisters</h2>
+<h2 id="_调用函数验证部署"><a class="anchor" href="#_调用函数验证部署"></a>调用函数验证部署</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You now have three <strong>canisters</strong> smart contracts deployed, either on your local canister execution environment or on the 互联网计算机 blockchain mainnet, and can test them by using <code>dfx canister call</code> commands.</p>
+<p>现在你已经在本地网络部署了三个canister并且可以通过dfx canister call命令分别测试</p>
 </div>
 <div class="paragraph">
-<p>To test the canisters you have deployed locally:</p>
+<p>测试步骤:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Use the <code>dfx canister call</code> command to call the canister <code>assistant</code> using the <code>addTodo</code> function and pass it the task you want to add by running the following command:</p>
+<p>使用dfx canister call命令调用assistant canister，使用addTodo函数并传递要添加的任务</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call assistant addTodo '("Schedule monthly demos")'</code></pre>
@@ -1085,32 +1070,30 @@ Creating canister "rock_paper_scissors"...
 </div>
 </li>
 <li>
-<p>Verify that the command returns the to-do list item using the <code>showTodos</code> function by running the following command:</p>
+<p>使用showTodos函数验证命令返回的to-do list</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call assistant showTodos</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command returns output similar to the following:</p>
+<p>命令输出</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>("
-___TO-DOs___
-(1) Schedule monthly demos")</pre>
+<pre>("___TO-DOs___(1) Schedule monthly demos")</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Use the <code>dfx canister call</code> command to call the canister <code>rock_paper_scissors</code> using the <code>contest</code> function by running the following command:</p>
+<p>使用dfx canister call命令调用rock_paper_scissors canister，使用contest函数</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call rock_paper_scissors contest</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command returns the result of the hard-coded contest similar to the following:</p>
+<p>命令输出</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1119,7 +1102,7 @@ ___TO-DOs___
 </div>
 </li>
 <li>
-<p>Use the <code>dfx canister call</code> command to call the canister <code>daemon</code> using the <code>launch</code> function by running the following command:</p>
+<p>使用dfx canister call命令调用daemon canister，使用launch函数</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call daemon launch</code></pre>
@@ -1127,7 +1110,7 @@ ___TO-DOs___
 </div>
 </li>
 <li>
-<p>Verify the mock <code>launch</code> function returns "The daemon process is running" message":</p>
+<p>验证launch模拟函数返回“The daemon process is running”信息</p>
 <div class="literalblock">
 <div class="content">
 <pre>(""The daemon process is running"")</pre>
@@ -1136,27 +1119,24 @@ ___TO-DOs___
 </li>
 </ol>
 </div>
-<div class="paragraph">
-<p>To test your canisters running on the 互联网计算机 blockchain mainnet use the same command as above, specifying the <code>--network</code> option and the network alias configured in the <code>dfx.json</code> file.</p>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_stop_the_local_network"><a class="anchor" href="#_stop_the_local_network"></a>Stop the local network</h2>
+<h2 id="_关闭本地网络"><a class="anchor" href="#_关闭本地网络"></a>关闭本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you finish experimenting with your dapp, you can stop the local canister execution environment so that it doesn’t continue running in the background.</p>
+<p>完成程序的测试后，可以关闭ICP网络</p>
 </div>
 <div class="paragraph">
-<p>To stop the local canister execution environment:</p>
+<p>关闭步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In the terminal that displays network operations, press Control-C to interrupt the local network process.</p>
+<p>打开显示网络活动的命令行，摁下Control-C命令终止本地网络进程</p>
 </li>
 <li>
-<p>Stop the local canister execution environment by running the following command:</p>
+<p>运行下面的命令终止网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx stop</code></pre>

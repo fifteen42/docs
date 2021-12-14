@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Customize the front-end :: 互联网计算机开发者文档</title>
+    <title>自定义前端 :: 互联网计算机开发者文档</title>
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/search.css">
@@ -607,88 +607,69 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Customize the front-end</h1>
+<h1 class="page">自定义前端</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Now that you have a basic understanding of how to create, build, and deploy a simple dapp and are familiar with the default project files and sample front-end, you might want to start experimenting with different ways to customize the front-end user experience for your project.</p>
+<p>现在，你已经对如何创建，构建和部署一个简单的程序有了基本的理解，并且熟悉了默认的项目文件和示例前端。也许你想要为你的项目实验不同的方法来自定义前端用户体验。</p>
 </div>
 <div class="paragraph">
-<p>This tutorial illustrates using the React framework to create a new front-end for the default sample dapp and guides you through some basic modifications to customize the interface displayed.
-Later tutorials expand on the techniques introduced here, but if you already know how to use CSS, HTML, JavaScript, and React or other frameworks to build your user interface, you can skip this tutorial.</p>
+<p>这篇教程讲解了使用简单的React框架为默认示例程序创建一个新的前端，并引导你对一些基本的接口进行自定义修改。</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-This tutorial illustrates using the React framework to manage the Document Object Model (DOM) for your canister smart contract.
-Because React has its own custom DOM syntax, you need to modify the webpack configuration to compile the front-end code, which is written in JSX. For more information about learning to use React and JSX, see <a href="https://reactjs.org/docs/getting-started.html">Getting started</a> on the <a href="https://reactjs.org/">React website</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>之后的教程会对这里的介绍做扩展，但是如果你已经了解了如何使用CSS，HTML，JavaScript和React等其它构建UI的框架，你可以跳过这个教程。</p>
+</div>
+<div class="paragraph">
+<p>注意: 这个教程讲解了如何在Canister使用React框架来管理DOM。因为React有自己的DOM规则，你需要修改webpack配置来编译JSX编写的前端代码。需要更多学习React和JSX的信息，查看<a href="https://reactjs.org/docs/getting-started.html">Getting started</a> ，在 <a href="https://reactjs.org/">React网站</a></p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_before_you_begin"><a class="anchor" href="#_before_you_begin"></a>Before you begin</h2>
+<h2 id="_开始之前"><a class="anchor" href="#_开始之前"></a>开始之前</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before starting the tutorial, verify the following:</p>
+<p>开始之前，需要检查以下内容</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>You have <code>node.js</code> installed for front-end development and can install packages using <code>npm install</code> in your project.
-For information about installing node for your local operating system and package manager, see the <a href="https://nodejs.org/en/">Node</a> website.</p>
+<p>为前端开发安装了node.js并且可以使用npm install在项目中安装包。需要更多关于安装node和包管理器的信息，请查看<a href="https://nodejs.org/en/">Node</a> 网站</p>
 </li>
 <li>
-<p>You have downloaded and installed the DFINITY Canister SDK package as described in <a href="../../quickstart/local-quickstart.html#download-and-install">Download and install</a>.</p>
+<p>已经下载并安装了 <a href="../../quickstart/local-quickstart.html#download-and-install">DFINITY Canister SDK</a></p>
 </li>
 <li>
-<p>You have installed the Visual Studio Code plugin for Motoko as described in <a href="../../quickstart/local-quickstart.html#install-vscode">Install the language editor plug-in</a> if you are using Visual Studio Code as your IDE.</p>
+<p>安装了Motoko 的VSCode 插件</p>
 </li>
 <li>
-<p>You have stopped any DFINITY Canister SDK processes running on the local
-computer.</p>
+<p>终止了所有ICP网络进程</p>
 </li>
 </ul>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-This tutorial requires you to use the DFINITY Canister SDK version <code>0.8.0</code> or later.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>注意: 由于HTTP请求和前端资源有很大的修改，本教程假定你使用了DFX_VERSION环境变量安装了0.7.0-beta版本的SDK。要查看修改日志，请看这篇文章。如果你使用的是0.6.26或更早的版本，点击Support链接获取本教程更早的版本。</p>
 </div>
 <div class="paragraph">
-<p>This tutorial takes approximately 30 minutes to complete.</p>
+<p>本篇教程需要大概30分钟</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_new_project"><a class="anchor" href="#_create_a_new_project"></a>Create a new project</h2>
+<h2 id="_创建新项目"><a class="anchor" href="#_创建新项目"></a>创建新项目</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To create a new project directory for your custom front-end dapp:</p>
+<p>创建一个自定义前端程序步骤‌</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a terminal shell on your local computer, if you don’t already have one open.</p>
+<p>打开本地命令终端</p>
 </li>
 <li>
-<p>Change to the folder you are using for your 互联网计算机 projects, if you are using one.</p>
+<p>修改当前目录到ICP项目目录</p>
 </li>
 <li>
-<p>Check that you have <code>node.js</code> installed locally by running the following commands:</p>
+<p>运行下面的命令检查你已经在本地安装了node.js</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">which node
@@ -696,23 +677,22 @@ which npm</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If you don&#8217;t have <code>node.js</code> installed, you should download and install it before continuing to the next step.
-For information about installing node for your local operating system and package manager, see the <a href="https://nodejs.org/en/">Node</a> website.</p>
+<p>如果你没有安装nodejs，你应该在下一步前下载并安装好。要了解更多关于安装node的信息，请查看<a href="https://nodejs.org/en/">Node</a>网站。</p>
 </div>
 </li>
 <li>
-<p>Create a new project by running the following command:</p>
+<p>运行下面的命令创建项目</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx new custom_greeting</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>dfx new custom_greeting</code> command creates a new <code>custom_greeting</code> project.</p>
+<p>dfx new custom_greeting命令会创建一个新的custom_greeting项目</p>
 </div>
 </li>
 <li>
-<p>Change to your project directory by running the following command:</p>
+<p>运行下面的命令进入项目目录</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd custom_greeting</code></pre>
@@ -724,18 +704,18 @@ For information about installing node for your local operating system and packag
 </div>
 </div>
 <div class="sect1">
-<h2 id="_install_the_react_framework"><a class="anchor" href="#_install_the_react_framework"></a>Install the React framework</h2>
+<h2 id="_安装react框架"><a class="anchor" href="#_安装react框架"></a>安装React框架</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you&#8217;ve never used React before, you might want to explore the <a href="https://reactjs.org/tutorial/tutorial.html">Intro to React</a> tutorial or the <a href="https://reactjs.org/">React website</a> before editing the front-end code.</p>
+<p>如果你不了解React框架，可以在<a href="https://reactjs.org/tutorial/tutorial.html">React网站</a>进行探索。</p>
 </div>
 <div class="paragraph">
-<p>To install required framework modules:</p>
+<p>安装React模块步骤如下</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Install the React module by running the following command:</p>
+<p>运行下面的命令安装React模块</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">npm install --save react react-dom</code></pre>
@@ -743,23 +723,14 @@ For information about installing node for your local operating system and packag
 </div>
 </li>
 <li>
-<p>Install the required TypeScript language compiler loader by running the following command:</p>
+<p>运行下面的命令安装Typescript加载器</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">npm install --save-dev typescript ts-loader</code></pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-As an alternative to installing these modules, you can edit the default <code>package.json</code> file to add dependencies for your project.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>注意: 另一个安装模块的方法是，你可以编辑package.json文件来添加模块</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -818,21 +789,21 @@ As an alternative to installing these modules, you can edit the default <code>pa
 </div>
 </div>
 <div class="sect1">
-<h2 id="_review_the_default_configuration"><a class="anchor" href="#_review_the_default_configuration"></a>Review the default configuration</h2>
+<h2 id="_查看默认配置"><a class="anchor" href="#_查看默认配置"></a>查看默认配置</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before we make any changes to use React for this tutorial, let&#8217;s review the default front-end settings in the <code>dfx.json</code> configuration file for your project.</p>
+<p>在修改代码前，让我们看一下dfx.json中默认的前端配置。</p>
 </div>
 <div class="paragraph">
-<p>To review the default <code>dfx.json</code> configuration file:</p>
+<p>查看dfx.json配置步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>dfx.json</code> configuration file in a text editor.</p>
+<p>编辑器中打开dfx.json</p>
 </li>
 <li>
-<p>Notice that the <code>canisters</code> key includes settings for a <code>custom_greeting_assets</code> canister.</p>
+<p>注意到canister下包含了custom_greeting_assets的配置</p>
 <div class="literalblock">
 <div class="content">
 <pre>{
@@ -857,72 +828,67 @@ As an alternative to installing these modules, you can edit the default <code>pa
 </div>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s take a look at the settings in this section.</p>
+<p>配置项解析</p>
 </div>
 <div class="openblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>Front-end assets for your project are compiled into their own canister, in this case, a canister named <code>custom_greeting_assets</code>.</p>
+<p>项目的前端资源会编译到自己的canister，在这里被称为 custom_greeting_assets.</p>
 </li>
 <li>
-<p>The assets canister has a default dependency on the main canister for the project.</p>
+<p>资源默认依赖于项目的主Canister。</p>
 </li>
 <li>
-<p>The <code>frontend.entrypoint</code> setting specifies the path to a file—in this case, the <code>index.html</code> file—to use as your dapp entry point.
-If you had a different starting point—for example, a custom <code>first-page.html</code> file—you would modify this setting.</p>
+<p>frontend.entrypoint指定了一个文件的路径-这里是index.html文件-作为项目入口使用。如果你希望有一个不同的入口文件-例如，自定义的first-page.html文件-你可以修改这一项。</p>
 </li>
 <li>
-<p>The <code>source</code> settings specify the path to your <code>src</code> and <code>dist</code> directories. The <code>src</code> setting specifies the directory to use for static assets that will be included in your assets canister when you build your project.
-If you have custom cascading stylesheet (CSS) or JavaScript files, you would include them in the folder specified by this path.
-After building the project, the project assets are served from the directory specified by the <code>dist</code> setting.</p>
+<p>source设置指定了src和dist目录。src指定了构建项目时会包含到资源canister的静态资源目录。如果你有CSS或JavaScript文件，你可以把这些文件放在这个目录。构建完项目后，项目资源会保留在dist项指定的目录</p>
 </li>
 <li>
-<p>The <code>type</code> setting specifies that the <code>custom_greeting_assets</code> should use the <a href="https://github.com/dfinity/certified-assets">certified asset canister</a>, which comes with everything you need to host static assets on the 互联网计算机平台.</p>
+<p>type配置指定了custom_greeting_assets是一个资源canister而不是程序canister</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>For this tutorial, we are going to add React JavaScript in an <code>index.jsx</code> file, but that won&#8217;t require any changes to the default settings in the <code>dfx.json</code> file.</p>
+<p>这篇教程中，我们会在一个index.jsx文件中添加React JavaScript，无需对dfx.json文件进行修改。</p>
 </div>
 </li>
 <li>
-<p>Close the <code>dfx.json</code> file to continue.</p>
+<p>关闭dfx.json文件继续。</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_review_the_default_front_end_files"><a class="anchor" href="#_review_the_default_front_end_files"></a>Review the default front-end files</h2>
+<h2 id="_查看默认前端文件"><a class="anchor" href="#_查看默认前端文件"></a>查看默认前端文件</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For this tutorial, you are going to make calls to the default <code>main.mo</code> canister through a custom front-end.
-Before you make any changes, though, let&#8217;s take a look at what&#8217;s in the default front-end files for a project.</p>
+<p>本篇教程中，你将使用默认的main.mo文件，只需要修改前端代码。在修改代码前，让我们看一看默认的前端代码。</p>
 </div>
 <div class="paragraph">
-<p>To review the default front-end files:</p>
+<p>查看前端代码步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>src/custom_greeting_assets/src/index.html</code> file in a text editor.</p>
+<p>编辑器中打开src/custom_greeting_assets/src/index.html 文件</p>
 <div class="paragraph">
-<p>This template file is the default front-end entry point for the dapp as specified by the <code>frontend.entrypoint</code> setting in the <code>dfx.json</code> file.</p>
+<p>这个前端文件是应用的默认入口，由dfx.json文件的frontend.entrypoint指定。</p>
 </div>
 <div class="paragraph">
-<p>This file contains standard HTML with references to a CSS file and an image that are located in the <code>src/custom_greeting_assets/assets</code> directory.
-The default <code>index.html</code> file also includes standard HTML syntax for displaying an input field for the <code>name</code> argument and a clickable button.</p>
+<p>这个文件包含标准HTML代码和指向CSS的引用以及位于src/custom_greeting_assets/assets目录的图片。默认的index.html文件也包含了一个输入框和一个可点击按钮的标准HTML语法。</p>
 </div>
 <div class="paragraph">
-<p>This is the same default front-end you saw in <a href="explore-templates.html#default-frontend">Viewing the default front-end</a>.</p>
+<p>这个前端和Viewing the default front-end章节一样</p>
 </div>
 </li>
 <li>
-<p>Open the <code>src/custom_greeting_assets/src/index.js</code> file in a text editor.</p>
+<p>编辑器中打开 src/custom_greeting_assets/src/index.js 文件</p>
 <div class="literalblock">
 <div class="content">
 <pre>import { custom_greeting } from "../../declarations/custom_greeting";
@@ -941,10 +907,16 @@ document.getElementById("clickMeBtn").addEventListener("click", async () =&gt; {
 <div class="ulist">
 <ul>
 <li>
-<p>The <code>import</code> statement points to an actor that will allow us to make calls to our <code>custom_greeting</code> canister from <code>"../declarations"</code></p>
+<p>默认的index.js的第一个import语句使用JavaScript Agent库创建一个actor和一个agent实例</p>
 </li>
 <li>
-<p>The declarations haven&#8217;t been created yet, but we will come back to that.</p>
+<p>第二个import语句会准备custom_greeting canister来构造actor</p>
+</li>
+<li>
+<p>接下来的2个语句构造了agent和actor</p>
+</li>
+<li>
+<p>剩余的代码提供了处理默认程序的文档对象</p>
 </li>
 </ul>
 </div>
@@ -952,28 +924,28 @@ document.getElementById("clickMeBtn").addEventListener("click", async () =&gt; {
 </div>
 </li>
 <li>
-<p>Close the <code>index.js</code> file to continue.</p>
+<p>关闭index.js继续。</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_front_end_files"><a class="anchor" href="#_modify_the_front_end_files"></a>Modify the front-end files</h2>
+<h2 id="_修改前端文件"><a class="anchor" href="#_修改前端文件"></a>修改前端文件</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You are now ready to create a new front-end for the default dapp.</p>
+<p>现在为默认程序创建一个新的前端</p>
 </div>
 <div class="paragraph">
-<p>To prepare the front-end files:</p>
+<p>准备前端文件步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the webpack configuration file (<code>webpack.config.js</code>) in a text editor.</p>
+<p>编辑器中打开webpack配置文件 (webpack.config.js)</p>
 </li>
 <li>
-<p>Modify the front-end entry to replace the default <code>index.html</code> with <code>index.jsx</code>.</p>
+<p>用index.jsx替换前端配置项index.html</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">entry: {
@@ -985,7 +957,7 @@ document.getElementById("clickMeBtn").addEventListener("click", async () =&gt; {
 </div>
 </li>
 <li>
-<p>Add the following <code>module</code> key above the <code>plugins</code> section:</p>
+<p>在plugins上添加下面的module</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">module: {
@@ -995,16 +967,12 @@ document.getElementById("clickMeBtn").addEventListener("click", async () =&gt; {
 },</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>This setting enables the project to use the <code>ts-loader</code> compiler for a React JavaScript <code>index.jsx</code> file.
-Note that there&#8217;s a commented section in the default <code>webpack.config.js</code> file that you can modify to add the <code>module</code> key.</p>
-</div>
 </li>
 <li>
-<p>Create a new file named <code>tsconfig.json</code> in the root directory for your project.</p>
+<p>在项目根目录创建tsconfig.json文件</p>
 </li>
 <li>
-<p>Open the <code>tsconfig.json</code> file in a text editor, then copy and paste the following into the file:</p>
+<p>编辑器中打开tsconfig.json，复制粘贴下面的内容：</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
@@ -1020,13 +988,13 @@ Note that there&#8217;s a commented section in the default <code>webpack.config.
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>tsconfig.json</code> file to continue.</p>
+<p>保存修改并关闭tsconfig.json文件继续</p>
 </li>
 <li>
-<p>Open the default <code>src/custom_greeting_assets/src/index.js</code> file in a text editor and delete lines 2 to 9.</p>
+<p>打开默认的src/custom_greeting_assets/src/index.js文件，删除7-12行</p>
 </li>
 <li>
-<p>Copy and paste the following sample code into the <code>index.js</code> file:</p>
+<p>复制粘贴下面的示例代码</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-react hljs" data-lang="react">import * as React from "react";
@@ -1073,7 +1041,7 @@ render(&lt;MyHello /&gt;, document.getElementById("app"));</code></pre>
 </div>
 </li>
 <li>
-<p>Rename the modified <code>index.js</code> file as <code>index.jsx</code> by running the following command:</p>
+<p>运行下面的命令将index.js文件重命名为index.jsx</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mv src/custom_greeting_assets/src/index.js src/custom_greeting_assets/src/index.jsx</code></pre>
@@ -1081,10 +1049,7 @@ render(&lt;MyHello /&gt;, document.getElementById("app"));</code></pre>
 </div>
 </li>
 <li>
-<p>Open the default <code>src/custom_greeting_assets/src/index.html</code> file in a text editor, then replace the body contents with <code>&lt;div id="app"&gt;&lt;/div&gt;</code>.</p>
-<div class="paragraph">
-<p>For example:</p>
-</div>
+<p>打开文件 src/custom_greeting_assets/src/index.html ， 将body内容替换为 &lt;div id="app"&gt;&lt;/div&gt;.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-html hljs" data-lang="html">&lt;!doctype html&gt;
@@ -1108,79 +1073,73 @@ render(&lt;MyHello /&gt;, document.getElementById("app"));</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_start_the_local_canister_execution_environment"><a class="anchor" href="#_start_the_local_canister_execution_environment"></a>Start the local canister execution environment</h2>
+<h2 id="_启动本地网络"><a class="anchor" href="#_启动本地网络"></a>启动本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before you can build the <code>custom_greeting</code> project, you need to connect to either the live 互联网计算机平台, or a canister execution environment running locally in your development environment.</p>
+<p>开始构建项目前，需要连接到本地或远程 ICP 网络。</p>
 </div>
 <div class="paragraph">
-<p>To start the environment locally:</p>
+<p>启动网络步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a new terminal window or tab on your local computer.</p>
+<p>打开新的终端</p>
 </li>
 <li>
-<p>Navigate to the root directory for your project, if necessary.</p>
+<p>进入项目根目录</p>
 </li>
 <li>
-<p>Start the local canister execution environment on your local computer by running the following command:</p>
+<p>使用下面的命令启动 ICP 本地网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx start --background</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>After the local canister execution environment completes its startup operations, you can continue to the next step.</p>
-</div>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_register_build_and_deploy_the_dapp"><a class="anchor" href="#_register_build_and_deploy_the_dapp"></a>Register, build, and deploy the dapp</h2>
+<h2 id="_注册构建并部署应用"><a class="anchor" href="#_注册构建并部署应用"></a>注册构建并部署应用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you connect to the local canister execution environment, you can register, build, and deploy your dapp locally.</p>
+<p>在开发环境中连接到本地ICP网络后，就可以在本地注册构建部署应用了。</p>
 </div>
 <div class="paragraph">
-<p>To deploy the dapp locally:</p>
+<p>部署应用步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in the root directory for your project, if needed.</p>
+<p>检查是否在项目根目录</p>
 </li>
 <li>
-<p>Register, build, and deploy your dapp by running the following command:</p>
+<p>注册构建并部署应用命令</p>
+</li>
+</ol>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx deploy</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>The <code>dfx deploy</code> command output displays information about the operations it performs.</p>
-</div>
-</li>
-</ol>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_view_the_new_front_end"><a class="anchor" href="#_view_the_new_front_end"></a>View the new front-end</h2>
+<h2 id="_查看新前端"><a class="anchor" href="#_查看新前端"></a>查看新前端</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can now access the new front-end for the default dapp by entering the canister identifier for the assets canister in a browser.</p>
+<p>现在可以通过输入资源canister识别码访问默认程序的新的前端。</p>
 </div>
 <div class="paragraph">
-<p>To view the custom front-end:</p>
+<p>查看自定义前端步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a new tab or window of your terminal and run</p>
+<p>打开新终端，运行以下命令</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">npm start</code></pre>
@@ -1188,21 +1147,21 @@ render(&lt;MyHello /&gt;, document.getElementById("app"));</code></pre>
 </div>
 </li>
 <li>
-<p>Open a browser and navigate to <a href="http://localhost:8080" class="bare">http://localhost:8080</a>.</p>
+<p>打开浏览器，输入 <a href="http://localhost:8080" class="bare">http://localhost:8080</a>.</p>
 </li>
 <li>
-<p>Verify that you are prompted to type a greeting.</p>
+<p>验证你可以触发一个greeting.</p>
 <div class="paragraph">
-<p>For example:</p>
+<p>例如</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="../_images/react-greeting.png" alt="Sample front-end"></span></p>
 </div>
 </li>
 <li>
-<p>Replace <strong>Name</strong> in the input field with the text you want to display, then click <strong>Get Greeting</strong> to see the result.</p>
+<p>替换输入框中你想要展示的Name，然后点击Get Greeting查看结果。</p>
 <div class="paragraph">
-<p>For example:</p>
+<p>例如</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="../_images/greeting-response.png" alt="Greeting result"></span></p>
@@ -1213,19 +1172,19 @@ render(&lt;MyHello /&gt;, document.getElementById("app"));</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_revise_the_front_end_and_test_your_changes"><a class="anchor" href="#_revise_the_front_end_and_test_your_changes"></a>Revise the front-end and test your changes</h2>
+<h2 id="_修改前端并测试"><a class="anchor" href="#_修改前端并测试"></a>修改前端并测试</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After viewing the front-end, you might want to make some changes.</p>
+<p>查看前端后，可以进行一些修改。</p>
 </div>
 <div class="paragraph">
-<p>To modify the front-end:</p>
+<p>修改步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>index.jsx</code> file in a text editor and modify its style settings.
-For example, you might want to change the font family and use a placeholder for the input field by making changes similar to the following:</p>
+<p>编辑器中打开index.jsx文件，并修改style设置。
+例如，你可能想要修改字体并在输入框使用占位文字，可以像下面一样修改：</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-react hljs" data-lang="react">import * as React from "react";
@@ -1273,17 +1232,17 @@ render(&lt;MyHello /&gt;, document.getElementById("app"));</code></pre>
 </div>
 </li>
 <li>
-<p>Save the file and view the updated page in your browser.</p>
+<p>保存文件，查看更新后的浏览器</p>
 <div class="paragraph">
-<p>For example:</p>
+<p>例如</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="../_images/revised-greeting.png" alt="Modified styles on your entry page"></span></p>
 </div>
 </li>
 <li>
-<p>Type a new message and see your new greeting.
-For example:</p>
+<p>输入新的消息查看结果
+例如</p>
 <div class="paragraph">
 <p><span class="image"><img src="../_images/modified-result.png" alt="Modified greeting result"></span></p>
 </div>
@@ -1293,24 +1252,21 @@ For example:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_stop_the_local_canister_execution_environment"><a class="anchor" href="#_stop_the_local_canister_execution_environment"></a>Stop the local canister execution environment</h2>
+<h2 id="_关闭本地网络"><a class="anchor" href="#_关闭本地网络"></a>关闭本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you finish experimenting with the front-end for your dapp, you can stop the local canister execution environment so that it doesn’t continue running in the background.</p>
+<p>完成程序的测试后，可以关闭ICP网络</p>
 </div>
 <div class="paragraph">
-<p>To stop the local network:</p>
+<p>关闭步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In the terminal that displays the webpack development server, press Control-C to interrupt the dev-server.</p>
+<p>打开显示网络活动的命令行，摁下Control-C命令终止本地网络进程</p>
 </li>
 <li>
-<p>In the terminal that displays network operations, press Control-C to interrupt the local network process.</p>
-</li>
-<li>
-<p>Stop the local canister execution environment by running the following command:</p>
+<p>运行下面的命令终止网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx stop</code></pre>
