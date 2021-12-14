@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Import library modules :: 互联网计算机开发者文档</title>
+    <title>6.库模块导入 :: 互联网计算机开发者文档</title>
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/search.css">
@@ -607,70 +607,63 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Import library modules</h1>
+<h1 class="page">6.库模块导入</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this tutorial, you are going to write a simple dapp that enables you to store and look up telephone numbers.
-This tutorial illustrates how to import and use a few basic Motoko library functions.</p>
+<p>本章节中，将会编写一个可以存储并查询电话号码的简单程序。这个教程讲解了如何导入和使用一些基本的Motoko库函数。</p>
 </div>
 <div class="paragraph">
-<p>For this tutorial, the Motoko base library functions are defined in the  <code>List</code> and <code>AssocList</code> modules and enable you to work with lists as linked key-value pairs.
-In this example, the <strong>key</strong> is a <code>name</code> and the <strong>value</strong> is the <code>phone</code> text string associated with that name.</p>
+<p>这篇教程中，Motoko基本库函数定义在List和AssocList模块中，允许你将list作为链接的键值对使用。这片例子中，键是name， 值是绑定name的phone文本字符串</p>
 </div>
 <div class="paragraph">
-<p>This dapp supports the following function calls:</p>
+<p>这个程序支持下面的函数调用</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The <code>insert</code> function accepts the <code>name</code> and <code>phone</code> key-value pair as input stored in the <code>book</code> variable.</p>
+<p>insert函数接受name和phone键值对作为输入参数并存储在book变量中</p>
 </li>
 <li>
-<p>The <code>lookup</code> function is a query that uses the specified <code>name</code> key as input to find the associated phone number.</p>
+<p>lookup函数是一个query函数，使用name作为输入来查询相关的电话号码</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_before_you_begin"><a class="anchor" href="#_before_you_begin"></a>Before you begin</h2>
+<h2 id="_开始之前"><a class="anchor" href="#_开始之前"></a>开始之前</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before starting the tutorial, verify the following:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>You have downloaded and installed the DFINITY Canister SDK package as described in <a href="../../quickstart/local-quickstart.html#download-and-install">Download and install</a>.</p>
-</li>
-<li>
-<p>You have stopped the local canister execution environment provided by <code>dfx</code>.</p>
-</li>
-</ul>
+<p>开始前，需要检查下面的问题</p>
 </div>
 <div class="paragraph">
-<p>This tutorial takes approximately 10 minutes to complete.</p>
+<p>已经按照 <a href="../../quickstart/local-quickstart.html#download-and-install">下载与安装</a>章节的步骤下载并安装了DFINITY Canister SDK</p>
+</div>
+<div class="paragraph">
+<p>本地电脑上已经关闭了ICP网络进程</p>
+</div>
+<div class="paragraph">
+<p>本篇教程需要大概10分钟</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_new_project"><a class="anchor" href="#_create_a_new_project"></a>Create a new project</h2>
+<h2 id="_创建新项目"><a class="anchor" href="#_创建新项目"></a>创建新项目</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To create a new project for this tutorial:</p>
+<p>创建项目步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a terminal shell on your local computer, if you don’t already
-have one open.</p>
+<p>打开终端</p>
 </li>
 <li>
-<p>Change to the folder you are using for your 互联网计算机 projects, if you are using one.</p>
+<p>进入工作目录</p>
 </li>
 <li>
-<p>Create a new project by running the following command:</p>
+<p>运行下面的命令来创建项目</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx new phonebook</code></pre>
@@ -678,7 +671,7 @@ have one open.</p>
 </div>
 </li>
 <li>
-<p>Change to your project directory by running the following command:</p>
+<p>进入项目目录</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd phonebook</code></pre>
@@ -690,21 +683,21 @@ have one open.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_default_dapp"><a class="anchor" href="#_modify_the_default_dapp"></a>Modify the default dapp</h2>
+<h2 id="_修改默认程序"><a class="anchor" href="#_修改默认程序"></a>修改默认程序</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For this tutorial, let&#8217;s create a new <code>main.mo</code> file for the simple phone number lookup dapp.</p>
+<p>为了编写电话号码查询程序，创建一个新的main.mo文件</p>
 </div>
 <div class="paragraph">
-<p>To modify the default template:</p>
+<p>源码修改步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>src/phonebook/main.mo</code> file in a text editor and delete the existing content.</p>
+<p>编辑器中打开src/phonebook/main.mo 源码文件</p>
 </li>
 <li>
-<p>Copy and paste the following sample code into the <code>main.mo</code> file:</p>
+<p>复制粘贴下面的示例代码到main.mo文件</p>
 <div class="listingblock copy">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-motoko hljs" data-lang="motoko">// Import standard library functions for lists
@@ -743,21 +736,20 @@ actor {
 </div>
 </div>
 <div class="paragraph">
-<p>In looking at this sample dapp, you might notice the following key elements:</p>
+<p>代码中有几个重点</p>
 </div>
 <div class="openblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>The code defines <code>Name</code> and <code>Phone</code> as custom Text types.
-Creating user-defined types improves the readability of the code.</p>
+<p>Name和Phone定义为自定义Text类型，像这样创建自定义类型可以增强代码可读性</p>
 </li>
 <li>
-<p>The <code>insert</code> function is an update call and the <code>lookup</code> function is a query call.</p>
+<p>insert函数是一个update调用，lookup函数是一个query调用</p>
 </li>
 <li>
-<p>The <code>Phone</code> type is identified as an optional value by using the <code>?Phone</code> syntax.</p>
+<p>Phone类型通过?Phone定义为可选值</p>
 </li>
 </ul>
 </div>
@@ -769,91 +761,78 @@ Creating user-defined types improves the readability of the code.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_start_the_local_canister_execution_environment"><a class="anchor" href="#_start_the_local_canister_execution_environment"></a>Start the local canister execution environment</h2>
+<h2 id="_启动本地网络"><a class="anchor" href="#_启动本地网络"></a>启动本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For development purposes <code>dfx</code> provides a local canister execution environment. This requires a <code>dfx.json</code> file, so you should be sure you are in your project&#8217;s root directory. For this tutorial, you should have two separate terminal shells, so that you can start and see the output of the local canister execution environment in one terminal and manage your project in another.</p>
+<p>开始构建项目前，需要连接到本地或远程 ICP 网络。</p>
 </div>
 <div class="paragraph">
-<p>To start the local canister execution environment:</p>
+<p>启动本地网络需要 dfx.json 文件，需要确认在项目根目录操作。在这篇教程中，建议开启 2 个终端，一个启动网络，另一个管理项目。</p>
+</div>
+<div class="paragraph">
+<p>启动网络步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a new terminal window or tab on your local computer.</p>
+<p>打开新的终端</p>
 </li>
 <li>
-<p>Navigate to the root directory for your project, if necessary.</p>
-<div class="openblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>You should now have <strong>two terminals</strong> open.</p>
+<p>进入项目根目录</p>
 </li>
 <li>
-<p>You should have the <strong>project directory</strong> as your <strong>current working directory</strong>.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</li>
-<li>
-<p>Start the local canister execution environment on your local computer by running the following command:</p>
+<p>使用下面的命令启动 ICP 本地网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx start --clean</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>For this tutorial, we&#8217;re using the <code>--clean</code> option to start the local canister execution environment in a clean state.</p>
+<p>这里使用&#8212;&#8203;clean来用一个干净的状态启动ICP网络</p>
 </div>
 <div class="paragraph">
-<p>This option removes any orphan background processes or canister identifiers that might disrupt normal operations.
-For example, if you forgot to issue a <code>dfx stop</code> when moving between projects, you might have a process running in the background or in another terminal.
-The <code>--clean</code> option ensures that you can start the local canister execution environment and continue to the next step without manually finding and terminating any running processes.</p>
+<p>这个选项会移除可能存在冲突的孤儿进程或Canister识别码。例如，如果你切换项目后忘记使用dfx stop命令，可能会在其他命令行有后台进程。--clean选项确保你正常启动ICP网络而无需关注其他进程。</p>
 </div>
 </li>
 <li>
-<p>Leave the terminal that displays the output of the local canister execution environment open and switch your focus to your original terminal where you created your new project.</p>
+<p>切换到项目终端</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_register_build_and_deploy_the_dapp"><a class="anchor" href="#_register_build_and_deploy_the_dapp"></a>Register, build, and deploy the dapp</h2>
+<h2 id="_注册构建并部署应用"><a class="anchor" href="#_注册构建并部署应用"></a>注册构建并部署应用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Once the local canister execution environment is up and running in your development environment, you can register, build, and deploy your dapp onto it.</p>
+<p>在开发环境中连接到本地ICP网络后，就可以在本地注册构建部署应用了。</p>
 </div>
 <div class="paragraph">
-<p>To deploy the dapp locally:</p>
+<p>部署应用步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in the root directory for your project, if needed.</p>
+<p>检查是否在项目根目录</p>
 </li>
 <li>
-<p>Register, build, and deploy your dapp locally by running the following command:</p>
+<p>注册构建并部署应用命令</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx deploy phonebook</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>dfx.json</code> file provides default settings for creating a dapp front-end entry point and <code>assets</code> canister smart contract.</p>
+<p>dfx.json文件提供创建应用前端入口的默认配置和asset canister。</p>
 </div>
 <div class="paragraph">
-<p>In previous tutorials, we deleted the entries for the asset canister because we were not adding a front-end for the sample dapp. That change kept our project workspace tidy by eliminating files that would go unused. There is no requirement to do this, however, and there is no harm in leaving the asset canister smart contract description in the <code>dfx.json</code> file. For example, you might want to use it as a placeholder if you intend to add front-end assets later.</p>
+<p>在前面的章节中，我们删除了asset canister项因为我们不需要应用前端。删除用不到的文件可以让项目目录保持简介。虽然不需要做这些，但是在dfx.json文件中保留asset canister也没什么坏处。例如，你之后可能想添加前端资源。</p>
 </div>
 <div class="paragraph">
-<p>For this tutorial, you can deploy just the phonebook back-end canister smart contract using the <code>dfx deploy phonebook</code> command because the project doesn&#8217;t include any front-end assets and you will interact with it via the terminal.</p>
+<p>这个教程中，可以使用dfx deploy phonebook命令来只部署后台canister，因为项目是一个基于命令行的程序不需要前端资源。</p>
 </div>
 <div class="paragraph">
-<p>Although this tutorial illustrates how to skip compiling a front-end canister, you can add a simple user interface to this dapp later by exploring the <a href="https://github.com/dfinity/examples/tree/master/motoko/phone-book">phone-book</a> project in the <a href="https://github.com/dfinity/examples">examples</a> repository.</p>
+<p>虽然这个教程描述了如何跳过前端canister编译，但是你可以之后为应用添加一个简单的用户界面，相关内容可以查看<a href="https://github.com/dfinity/examples/tree/master/motoko/phone-book">phone-book</a> 项目，位于<a href="https://github.com/dfinity/examples">examples</a> 代码库中。</p>
 </div>
 </li>
 </ol>
@@ -861,18 +840,18 @@ The <code>--clean</code> option ensures that you can start the local canister ex
 </div>
 </div>
 <div class="sect1">
-<h2 id="_add_names_and_numbers_using_the_insert_function"><a class="anchor" href="#_add_names_and_numbers_using_the_insert_function"></a>Add names and numbers using the insert function</h2>
+<h2 id="_使用insert函数添加名字和数字"><a class="anchor" href="#_使用insert函数添加名字和数字"></a>使用insert函数添加名字和数字</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You now have a dapp deployed as a <strong>canister smart contract</strong> on your local canister execution environment and can test your dapp by using <code>dfx canister call</code> commands.</p>
+<p>现在，项目已经部署到本地ICP网络，并且可以使用dfx canister call命令进行测试。</p>
 </div>
 <div class="paragraph">
-<p>To test the dapp you have deployed:</p>
+<p>测试部署的程序步骤如下</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Use the <code>dfx canister call</code> command to call the canister smart contract <code>phonebook</code> using the <code>insert</code> function and pass it a name and phone number by running the following command:</p>
+<p>运行下面命令来调用程序的phonebook canister的insert 方法并传递名称和电话号码参数。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call phonebook insert '("Chris Lynn", "01 415 792 1333")'</code></pre>
@@ -880,7 +859,7 @@ The <code>--clean</code> option ensures that you can start the local canister ex
 </div>
 </li>
 <li>
-<p>Add a second name and number pair by running the following command:</p>
+<p>运行下面的命令添加第二个名称和号码对。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call phonebook insert '("Maya Garcia", "01 408 395 7276")'</code></pre>
@@ -888,14 +867,14 @@ The <code>--clean</code> option ensures that you can start the local canister ex
 </div>
 </li>
 <li>
-<p>Verify that the command returns the number associated with "Chris Lynn" using the <code>lookup</code> function by running the following command:</p>
+<p>运行下面的命令调用lookup函数并传入“CHris Lynn”参数验证。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call phonebook lookup '("Chris Lynn")'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command returns output similar to the following:</p>
+<p>命令输出</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -904,25 +883,25 @@ The <code>--clean</code> option ensures that you can start the local canister ex
 </div>
 </li>
 <li>
-<p>Try to call the <code>lookup</code> function with the number associated with "Maya Garcia" by running the following command:</p>
+<p>运行下面的命令调用lookup函数并传入“Maya Garcia”参数验证。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call phonebook lookup '("01 408 395 7276")'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Note that, in this case, the command returns <code>(null)</code> because the phone number is not a key associated with the "Maya Garcia" name entry.</p>
+<p>注意这个命令返回null因为电话号码不是“Maya Garcia”的name键</p>
 </div>
 </li>
 <li>
-<p>Try to call the <code>lookup</code> function again to return the phone numbers for both "Maya Garcia" and "Chris Lynn" by running the following command:</p>
+<p>尝试运行下面的命令再次调用lookup函数并传入“Maya Garcia”和“Chris Lynn”参数验证。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call phonebook lookup '("Maya Garcia","Chris Lynn")'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Because the dapp is written to return one value for one key, the command only returns information associated with the first key, in this example the phone number for <code>Maya Garcia</code>.</p>
+<p>由于程序只接受一个值，命令会返回第一个值对应的信息，在这里会返回“Maya Garcia”对应的电话号码。</p>
 </div>
 </li>
 </ol>
@@ -1036,33 +1015,32 @@ For example, if a function takes an array, you might need to specify the number 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_revise_the_source_code_in_your_dapp"><a class="anchor" href="#_revise_the_source_code_in_your_dapp"></a>Revise the source code in your dapp</h2>
+<h2 id="_修改源代码"><a class="anchor" href="#_修改源代码"></a>修改源代码</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To extend what you have learned in this tutorial, you might want to try modifying the source code to return different results.</p>
+<p>为了扩展您在本教程中学到的知识，您可能想要尝试修改源代码以返回不同的结果。</p>
 </div>
 <div class="paragraph">
-<p>For example, you might want to change the source code so that instead of a dapp that inserts and looks up a current key-value (name-phone) pair to create a dapp that stores contact information similar to a database "record" in which a primary key is associated with multiple fields.
-In this example, your dapp might enable users or another dapp to add information—such as a home phone number, a cell phone number, an email address, and a street address—and selectively return all or specific field values.</p>
+<p>例如，您可能希望更改源代码，而不是插入和查找当前键值（姓名-电话）对的程序来创建一个程序，该程序存储类似于数据库“记录”的联系信息，其中一个主键与多个字段相关联。 在此示例中，您的程序可能允许用户或其他程序添加信息（例如家庭电话号码、手机号码、电子邮件地址和街道地址），并有选择地返回所有或特定字段值。</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_stop_the_local_canister_execution_environment"><a class="anchor" href="#_stop_the_local_canister_execution_environment"></a>Stop the local canister execution environment</h2>
+<h2 id="_关闭本地网络"><a class="anchor" href="#_关闭本地网络"></a>关闭本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you finish experimenting with your dapp, you can stop the local canister execution environment so that it does not continue running in the background.</p>
+<p>完成程序的测试后，可以关闭ICP网络。</p>
 </div>
 <div class="paragraph">
-<p>To stop the local canister execution environment:</p>
+<p>关闭步骤</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In the terminal that displays network operations, press Control-C to interrupt the local network process.</p>
+<p>打开显示网络活动的命令行，摁下Control-C命令终止本地网络进程</p>
 </li>
 <li>
-<p>Stop the local canister execution environment by running the following command:</p>
+<p>运行下面的命令终止网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx stop</code></pre>
