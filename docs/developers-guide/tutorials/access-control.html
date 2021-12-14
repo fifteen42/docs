@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Add access control with identities :: 互联网计算机开发者文档</title>
+    <title>添加访问控制 :: 互联网计算机开发者文档</title>
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/search.css">
@@ -607,37 +607,36 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Add access control with identities</h1>
+<h1 class="page">添加访问控制</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Dapps often require role-based permissions to control the operations different users can perform.</p>
+<p>应用程序通常需要基于角色权限来控制不同用户可以执行的操作。为说明如何创建和切换用户身份，本教程创建一个简单的程序，对不同角色用户显示不同的问候语。</p>
 </div>
 <div class="paragraph">
-<p>To illustrate how to create and switch between user identities, this tutorial creates a simple dapp that displays a different greeting for users who are assigned to different roles.</p>
+<p>此例子中，有三个命名角色-owner, admin 和 authorized。</p>
 </div>
-<div class="paragraph">
-<p>In this example, there are three named roles—<code>owner</code>, <code>admin</code>, and <code>authorized</code>.</p>
-</div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>Users who are assigned an <code>admin</code> role see a greeting that displays <code>You have a role with administrative privileges</code>.</p>
+<p>具有admin角色的用户显示You have a role with administrative privileges</p>
 </li>
 <li>
-<p>Users who are assigned an <code>authorized</code> role see a greeting that displays <code>Would you like to play a game?</code>.</p>
+<p>具有authorized角色的用户显示Would you like to play a game?</p>
 </li>
 <li>
-<p>Users who are not assigned one of these roles see a greeting that displays <code>Nice to meet you!</code>.</p>
+<p>没有分配这些角色的用户显示Nice to meet you!</p>
 </li>
-</ul>
+</ol>
 </div>
 <div class="paragraph">
-<p>In addition, only the user identity that initialized the canister smart contract is assigned the <code>owner</code> role and only the <code>owner</code> and <code>admin</code> roles can assign roles to other users.</p>
+<p>此外，只有安装Canister的用户才授予owner角色，只有owner和admin角色才能分配角色给其他用户。</p>
 </div>
 <div class="paragraph">
-<p>At a high-level, each user has a public/private key pair. The public key combined with the canister smart contract identifier the user accesses forms a security principal that can then be used as a message caller to authenticate function calls made to the canister smart contract running on the 互联网计算机.
-The following diagram provides a simplified view of how user identities authenticate message callers.</p>
+<p>在较高级别上，每个用户都有一个公用/专用密钥对。 用户访问的公用密钥与容器标识符结合在一起，形成一个安全主体，然后可以用作消息调用方来验证对在Internet Computer上运行的容器进行的功能调用。</p>
+</div>
+<div class="paragraph">
+<p>下图提供了有关用户身份如何认证消息调用者的简化视图。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -647,46 +646,45 @@ The following diagram provides a simplified view of how user identities authenti
 </div>
 </div>
 <div class="sect1">
-<h2 id="_before_you_begin"><a class="anchor" href="#_before_you_begin"></a>Before you begin</h2>
+<h2 id="_开始之前"><a class="anchor" href="#_开始之前"></a>开始之前</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before starting the tutorial, verify the following:</p>
+<p>在开始本教程之前，验证以下内容：</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>You have downloaded and installed the DFINITY Canister SDK package as described in <a href="../../quickstart/local-quickstart.html#download-and-install">Download and install</a>.</p>
+<p>您已按照下载和安装中的说明下载并安装了DFINITY Canister SDK软件包。</p>
 </li>
 <li>
-<p>You have run at least one command that resulted in your <code>default</code> user identity being created.
-Your default user identity is stored globally for all projects in the <code>$HOME/.config/dfx/identity/</code> directory.</p>
+<p>您已运行了至少一个可以创建默认用户身份的命令。您的默认用户身份信息存储在$HOME/.config/dfx/identity/目录。</p>
 </li>
 <li>
-<p>You have installed the Visual Studio Code plugin for Motoko as described in <a href="../../quickstart/local-quickstart.html#install-vscode">Install the language editor plug-in</a> if you are using Visual Studio Code as your IDE.</p>
+<p>如果您使用Visual Studio Code作为你的IDE，并已按安装语言编辑插件所述安装好了Motoko语言插件。</p>
 </li>
 <li>
-<p>You have stopped any local canister execution environment processes running on your computer.</p>
+<p>您已停止本地计算机上所有的Internet Computer进程。</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_new_project"><a class="anchor" href="#_create_a_new_project"></a>Create a new project</h2>
+<h2 id="_创建新项目"><a class="anchor" href="#_创建新项目"></a>创建新项目</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To create a new project directory for testing access control and switching user identities:</p>
+<p>为测试访问控制和切换用户身份创建新项目：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a terminal shell on your local computer, if you don’t already have one open.</p>
+<p>打开终端。</p>
 </li>
 <li>
-<p>Change to the folder you are using for your 互联网计算机 projects, if you are using one.</p>
+<p>切换到Internet Computer目录。</p>
 </li>
 <li>
-<p>Create a new project by running the following command:</p>
+<p>运行以下命令创建新项目</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx new access_hello</code></pre>
@@ -694,7 +692,7 @@ Your default user identity is stored globally for all projects in the <code>$HOM
 </div>
 </li>
 <li>
-<p>Change to your project directory by running the following command:</p>
+<p>运行下列命令进入项目目录。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd access_hello</code></pre>
@@ -706,21 +704,21 @@ Your default user identity is stored globally for all projects in the <code>$HOM
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modify_the_default_dapp"><a class="anchor" href="#_modify_the_default_dapp"></a>Modify the default dapp</h2>
+<h2 id="_修改默认程序"><a class="anchor" href="#_修改默认程序"></a>修改默认程序</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For this tutorial, you are going to replace the template source code file with a dapp that has functions for assigning and retrieving roles.</p>
+<p>对于本教程，您将使用具有分配和检索角色功能的程序替换模板源代码文件。</p>
 </div>
 <div class="paragraph">
-<p>To modify the default dapp:</p>
+<p>修改默认程序：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the <code>src/access_hello/main.mo</code> file in a text editor and delete the existing content.</p>
+<p>在文本编辑器中打开src/access_hello/main.mo文件，然后删除现有内容。</p>
 </li>
 <li>
-<p>Copy and paste the following sample code into the file:</p>
+<p>将以下示例代码复制并粘贴到文件中：</p>
 <div class="listingblock copy">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-motoko hljs" data-lang="motoko">// Import base modules
@@ -834,7 +832,7 @@ shared({ caller = initializer }) actor class() {
 </div>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s take a look at a few key elements of this dapp:</p>
+<p>让我们看一下该程序的一些关键要素：</p>
 </div>
 <div class="openblock">
 <div class="content">
@@ -843,20 +841,20 @@ shared({ caller = initializer }) actor class() {
 <li>
 <p>You might notice that the <code>greet</code> function is a variation on the <code>greet</code> function you have seen in previous tutorials.</p>
 <div class="paragraph">
-<p>In this dapp, however, the <code>greet</code> function uses a message caller to determine the permissions that should be applied and, based on the permissions associated with the caller, which greeting to display.</p>
+<p>您可能会注意到greet函数是您在先前教程中看到的greet函数的变体。但是，在此程序中，greet函数使用消息调用方来确定应用的权限，并基于与调用方相关联的权限来确定要显示的问候。</p>
 </div>
 </li>
 <li>
-<p>The dapp defines two custom types—one for <code>Roles</code> and one for <code>Permissions</code>.</p>
+<p>该程序定义了两种自定义类型-一种用于Role，一种用于Permissions。</p>
 </li>
 <li>
-<p>The <code>assign_roles</code> function enables the message caller to assign a role to the principal associated with an identity.</p>
+<p>Assign_roles函数使消息调用者可以将角色分配给与身份关联的主体。</p>
 </li>
 <li>
-<p>The <code>callerPrincipal</code> function enables you to return the principal associated with an identity.</p>
+<p>使用callerPrincipal函数，您可以返回与身份关联的主体。</p>
 </li>
 <li>
-<p>The <code>my_role</code> function enables you to return the role that is associated with an identity.</p>
+<p>使用my_role函数可以返回与身份关联的角色。</p>
 </li>
 </ul>
 </div>
@@ -864,61 +862,66 @@ shared({ caller = initializer }) actor class() {
 </div>
 </li>
 <li>
-<p>Save your changes and close the <code>main.mo</code> file to continue.</p>
+<p>保存并关闭main.mo文件。</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_start_the_local_canister_execution_environment"><a class="anchor" href="#_start_the_local_canister_execution_environment"></a>Start the local canister execution environment</h2>
+<h2 id="_启动本地网络"><a class="anchor" href="#_启动本地网络"></a>启动本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before you can build the <code>access_hello</code> project, you need to connect to the local canister execution environment running in your development environment or to the 互联网计算机 mainnet.</p>
+<p>开始构建项目前，需要连接到本地或远程 ICP 网络。</p>
 </div>
 <div class="paragraph">
-<p>To start the local canister execution environment:</p>
+<p>启动本地网络需要 dfx.json 文件，需要确认在项目根目录进行操作。在这篇教程中，建议开启 2 个终端，一个启动网络，另一个管理项目。</p>
+</div>
+<div class="paragraph">
+<p>启动网络步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open a new terminal window or tab on your local computer.</p>
+<p>打开新的终端。</p>
 </li>
 <li>
-<p>Navigate to the root directory for your project, if necessary.</p>
+<p>进入项目根目录。</p>
 </li>
 <li>
-<p>Start the local canister execution environment on your computer by running the following command:</p>
+<p>使用下面的命令启动 ICP 本地网络。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx start --background</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>After the local canister execution environment completes its startup operations, you can continue to the next step.</p>
+<p>打开新的终端这时可能会显示警告信息，这取决于使用的平台的安全策略配置。这时请选择允许。启动本地网络后，终端会显示网络操信息。</p>
 </div>
+</li>
+<li>
+<p>切换到项目终端。</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_register_build_and_deploy_the_dapp"><a class="anchor" href="#_register_build_and_deploy_the_dapp"></a>Register, build, and deploy the dapp</h2>
+<h2 id="_注册构建并部署应用"><a class="anchor" href="#_注册构建并部署应用"></a>注册构建并部署应用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you connect to the local canister execution environment running in your development environment, you can register, build, and deploy your dapp in a single step by running the <a href="../cli-reference/dfx-deploy.html"><code>dfx deploy</code></a> command.
-You can also perform each of these steps independently using separate <a href="../cli-reference/dfx-canister.html#dfx_canister_create"><code>dfx canister create</code></a>, <a href="../cli-reference/dfx-build.html"><code>dfx build</code></a>, and <a href="../cli-reference/dfx-canister.html#dfx_canister_install"><code>dfx canister install</code></a> commands.</p>
+<p>连接到本地开发环境的Internet Computer网络后，可以通过运行dfx deploy命令在一个步骤中注册，构建和部署应用程序。 您还可以使用单独的dfx canister create，dfx build和dfx canister install命令独立执行每个步骤。</p>
 </div>
 <div class="paragraph">
-<p>To deploy the dapp locally:</p>
+<p>本地部署：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in the root directory for your project, if needed.</p>
+<p>检查是否在项目根目录。</p>
 </li>
 <li>
-<p>Register, build, and deploy the <code>access_hello</code> back-end dapp by running the following command:</p>
+<p>通过运行以下命令来注册，构建和部署access_hello后端程序。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx deploy access_hello</code></pre>
@@ -944,26 +947,28 @@ Deployed canisters.</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_check_the_current_identity_context"><a class="anchor" href="#_check_the_current_identity_context"></a>Check the current identity context</h2>
+<h2 id="_检查当前的认证内容"><a class="anchor" href="#_检查当前的认证内容"></a>检查当前的认证内容</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before we create any additional identities, let&#8217;s review the principal identifiers associated with your <code>default</code> identity and the cycles wallet for your <code>default</code> identity.
-On the 互联网计算机, a principal is the internal representative for a user, canister smart contract, node, or subnet. The textual representation for a principal is the external identifier you see displayed with working with the principal data type.</p>
+<p>在创建任何其他身份之前，让我们查看与您的默认身份相关联的账户标识符以及该默认身份的cycles钱包。</p>
 </div>
 <div class="paragraph">
-<p>To review your current identity and principle:</p>
+<p>在Internet Computer上，账户是用户，Canister，节点或子网的内部代表。 账户的文本表示形式是使用账户数据类型显示的外部标识符。</p>
+</div>
+<div class="paragraph">
+<p>要查看您当前的身份和账户:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Verify the currently-active identity by running the following command:</p>
+<p>通过运行以下命令来验证当前活动身份：</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx identity whoami</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>该命令显示的输出类似于以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -972,14 +977,14 @@ On the 互联网计算机, a principal is the internal representative for a user
 </div>
 </li>
 <li>
-<p>Check the principal for the <code>default</code> user identity by running the following command:</p>
+<p>通过运行以下命令，检查账户以获取默认用户身份：</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx identity get-principal</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -988,14 +993,14 @@ On the 互联网计算机, a principal is the internal representative for a user
 </div>
 </li>
 <li>
-<p>Check the role associated with the <code>default</code> user identity by running the following command:</p>
+<p>通过运行以下命令来检查与默认用户关联的角色：</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister --wallet=$(dfx identity get-wallet) call access_hello my_role</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1008,28 +1013,25 @@ On the 互联网计算机, a principal is the internal representative for a user
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_new_user_identity"><a class="anchor" href="#_create_a_new_user_identity"></a>Create a new user identity</h2>
+<h2 id="_创建新用户"><a class="anchor" href="#_创建新用户"></a>创建新用户</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To begin testing the access controls in our dapp, let&#8217;s create some new user identities and assign those users to different roles.</p>
-</div>
-<div class="paragraph">
-<p>To create a new user identity:</p>
+<p>要开始测试我们程序中的访问控制，让我们创建一些新的用户身份并将这些用户分配给不同的角色。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in your project directory, if needed.</p>
+<p>进入项目目录。</p>
 </li>
 <li>
-<p>Create a new administrative user identity by running the following command:</p>
+<p>通过运行以下命令来创建新的管理用户身份。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx identity new ic_admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1039,14 +1041,14 @@ Created identity: "ic_admin".</pre>
 </div>
 </li>
 <li>
-<p>Call the <code>my_role</code> function to see that your new user identity has not been assigned to any role.</p>
+<p>调用my_role函数以查看您的新用户身份尚未分配的任何角色。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx --identity ic_admin canister call access_hello my_role</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1057,14 +1059,14 @@ The wallet canister on the "local" network for user "ic_admin" is "ryjl3-tyaaa-a
 </div>
 </li>
 <li>
-<p>Switch your currently-active identity context to use the new <code>ic_admin</code> user identity and display the principal associated with the <code>ic_admin</code> user by running the following command:</p>
+<p>通过运行以下命令，将当前活动用户切换为使用新的ic_admin用户身份，并显示与ic_admin用户关联的账户。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx identity use ic_admin &amp;&amp; dfx identity get-principal</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1074,14 +1076,14 @@ c5wa6-3irl7-tuxuo-4vtyw-xsnhw-rv2a6-vcmdz-bzkca-vejmd-327zo-wae</pre>
 </div>
 </li>
 <li>
-<p>Check the principal used to call the <code>access_hello</code> canister smart contract by running the following command:</p>
+<p>通过运行以下命令，检查用于调用access_hello Canister的账户。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call access_hello callerPrincipal</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1089,9 +1091,7 @@ c5wa6-3irl7-tuxuo-4vtyw-xsnhw-rv2a6-vcmdz-bzkca-vejmd-327zo-wae</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>By default, the cycles wallet identifier is the principal used to call the methods in the <code>access_hello</code> canister smart contract.
-To illustrate access control, however, we want to use the principal associated with the user context, not the cycles wallet.
-Before we get to that step, though, let&#8217;s assign a role to the <code>ic_admin</code> user. To do that, we need to switch to the <code>default</code> user identity that has the <code>owner</code> role.</p>
+<p>默认情况下，Cycles钱包标识符是用于调用access_hello canister中的方法的账户。 但是，为了说明访问控制，我们要使用与用户关联的账户，而不是Cycles钱包。 不过，在进行此步骤之前，让我们为ic_admin用户分配一个角色。 为此，我们需要切换到具有所有者角色的默认用户身份。</p>
 </div>
 </li>
 </ol>
@@ -1099,15 +1099,15 @@ Before we get to that step, though, let&#8217;s assign a role to the <code>ic_ad
 </div>
 </div>
 <div class="sect1">
-<h2 id="_assign_a_role_to_an_identity"><a class="anchor" href="#_assign_a_role_to_an_identity"></a>Assign a role to an identity</h2>
+<h2 id="_为身份分配角色"><a class="anchor" href="#_为身份分配角色"></a>为身份分配角色</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To assign the admin role to the ic_admin identity:</p>
+<p>要将管理员角色分配给ic_admin身份，请执行以下操作</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Switch your currently-active identity context to use the <code>default</code> user identity by running the following command:</p>
+<p>通过运行以下命令，将默认用户设置为当前活动用户。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx identity use default</code></pre>
@@ -1115,33 +1115,17 @@ Before we get to that step, though, let&#8217;s assign a role to the <code>ic_ad
 </div>
 </li>
 <li>
-<p>Assign the <code>ic_admin</code> principal the <code>admin</code> role by running a command similar to the following using Candid syntax:</p>
+<p>通过使用Candid语法运行类似于以下内容的命令，将admin角色 分配给ic_admin身份。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister --wallet=$(dfx identity get-wallet) call access_hello assign_role '((principal "c5wa6-3irl7-tuxuo-4vtyw-xsnhw-rv2a6-vcmdz-bzkca-vejmd-327zo-wae"),opt variant{admin})'</code></pre>
 </div>
 </div>
-</li>
-</ol>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Be sure to replace the <code>principal</code> hash with the one returned by the <code>dfx identity get-principal</code> command for the <code>ic_admin</code> identity.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>注意：确保将身份哈希替换为ic_admin身份的dfx identity get-principal命令返回的哈希。</p>
 </div>
 <div class="paragraph">
-<p>+
-Optionally, you can rerun the command to call the <code>my_role</code> function to verify the role assignment.</p>
-</div>
-<div class="paragraph">
-<p>+</p>
+<p>（可选项）您可以重新运行命令以调用my_role函数以验证角色分配。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1149,28 +1133,23 @@ Optionally, you can rerun the command to call the <code>my_role</code> function 
 </div>
 </div>
 <div class="paragraph">
-<p>+
-The command displays output similar to the following:</p>
-</div>
-<div class="paragraph">
-<p>+</p>
+<p>必须使用&#8212;&#8203;no-wallet选项才能查看分配给ic_admin身份的角色，而不是Cycles钱包。 该命令显示的输出类似于以下内容。</p>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre>(opt variant { admin })</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
-<p>Call the <code>greet</code> function using the <code>ic_admin</code> user identity that you just assigned the <code>admin</code> role by running the following command:</p>
+<p>通过运行以下命令，使用刚刚分配了admin角色的ic_admin用户身份调用greet函数。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx --identity ic_admin canister call access_hello greet "Internet Computer Admin"</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1185,30 +1164,31 @@ The command displays output similar to the following:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_add_an_authorized_user_identity"><a class="anchor" href="#_add_an_authorized_user_identity"></a>Add an authorized user identity</h2>
+<h2 id="_添加授权用户身份"><a class="anchor" href="#_添加授权用户身份"></a>添加授权用户身份</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>At this point, you have a <code>default</code> user identity with the <code>owner</code> role and an <code>ic_admin</code> user identity with the <code>admin</code> role.
-Let&#8217;s add another user identity and assign it to the <code>authorized</code> role.
-For this example, however, we&#8217;ll use an environment variable to store the user&#8217;s principal.</p>
+<p>此时，您具有owner角色的默认用户身份和具有admin角色的ic_admin用户身份。 让我们添加另一个用户身份，并将其分配给authorized角色。</p>
 </div>
 <div class="paragraph">
-<p>To add a new authorized user identity:</p>
+<p>但是，在此示例中，我们将使用环境变量来存储用户的账户。</p>
+</div>
+<div class="paragraph">
+<p>要添加新的authorized用户身份：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in your project directory, if needed.</p>
+<p>进入项目目录。</p>
 </li>
 <li>
-<p>Create a new authorized user identity by running the following command:</p>
+<p>通过运行以下命令来创建新的authorized用户身份。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx identity new alice_auth</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1218,7 +1198,7 @@ Created identity: "alice_auth".</pre>
 </div>
 </li>
 <li>
-<p>Switch your currently-active identity context to use the new <code>alice_auth</code> user identity by running the following command:</p>
+<p>通过运行以下命令，将当前活动的身份切换为新的alice_auth用户身份。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx identity use alice_auth</code></pre>
@@ -1226,14 +1206,14 @@ Created identity: "alice_auth".</pre>
 </div>
 </li>
 <li>
-<p>Store the principal for the <code>alice_auth</code> user in an environment variable by running the following command:</p>
+<p>通过运行以下命令，将alice_auth用户的账户存储在环境变量中。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">ALICE_ID=$(dfx identity get-principal)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You can verify the principal stored by running the following command:</p>
+<p>您可以通过运行以下命令来验证存储的账户：</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1241,7 +1221,7 @@ Created identity: "alice_auth".</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1250,7 +1230,7 @@ Created identity: "alice_auth".</pre>
 </div>
 </li>
 <li>
-<p>Use the <code>ic_admin</code> identity to assign the <code>authorized</code> role to <code>alice_auth</code> by running the following command:</p>
+<p>通过运行以下命令，使用ic_admin身份将授权角色分配给alice_auth。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx --identity ic_admin canister call access_hello assign_role "(principal \"$ALICE_ID\", opt variant{authorized})"</code></pre>
@@ -1258,14 +1238,14 @@ Created identity: "alice_auth".</pre>
 </div>
 </li>
 <li>
-<p>Call the <code>my_role</code> function to verify the role assignment.</p>
+<p>调用my_role函数以验证角色分配。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx --identity alice_auth canister call access_hello my_role</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1274,14 +1254,14 @@ Created identity: "alice_auth".</pre>
 </div>
 </li>
 <li>
-<p>Call the <code>greet</code> function using the <code>alice_auth</code> user identity that you just assigned the <code>authorized</code> role by running the following command:</p>
+<p>通过运行以下命令，使用刚刚分配了authorized角色的alice_auth用户身份调用greet函数。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx canister call access_hello greet "Alice"</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1296,22 +1276,21 @@ Created identity: "alice_auth".</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_add_an_unauthorized_user_identity"><a class="anchor" href="#_add_an_unauthorized_user_identity"></a>Add an unauthorized user identity</h2>
+<h2 id="_添加未授权的用户身份"><a class="anchor" href="#_添加未授权的用户身份"></a>添加未授权的用户身份</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You have now seen a simple example of creating users with specific roles and permissions.
-The next step is to create a user identity that is not assigned to a role or given any special permissions.</p>
+<p>现在，您已经看到了一个简单的示例，该示例创建具有特定角色和权限的用户。</p>
 </div>
 <div class="paragraph">
-<p>To add an unauthorized user identity:</p>
+<p>下一步是创建未分配给角色或未授予任何特殊权限的用户身份。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in your project directory, if needed.</p>
+<p>进入项目目录。</p>
 </li>
 <li>
-<p>Check your currently-active identity, if needed, by running the following command:</p>
+<p>查看当前活动用户。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx identity whoami</code></pre>
@@ -1319,14 +1298,14 @@ The next step is to create a user identity that is not assigned to a role or giv
 </div>
 </li>
 <li>
-<p>Create a new user identity by running the following command:</p>
+<p>通过运行以下命令来创建新的用户身份。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx identity new bob_standard</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1336,7 +1315,7 @@ Created identity: "bob_standard".</pre>
 </div>
 </li>
 <li>
-<p>Store the principal for the <code>bob_standard</code> user in an environment variable by running the following command:</p>
+<p>通过运行以下命令，将bob_standard用户的账户存储在环境变量中。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">BOB_ID=$(dfx --identity bob_standard identity get-principal)</code></pre>
@@ -1344,36 +1323,36 @@ Created identity: "bob_standard".</pre>
 </div>
 </li>
 <li>
-<p>Attempt to use the <code>bob_standard</code> identity to assign a role.</p>
+<p>尝试使用bob_standard身份分配角色。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx --identity bob_standard canister call access_hello assign_role "(principal \"$BOB_ID\", opt variant{authorized})"</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This command returns an <code>unauthorized</code> error.</p>
+<p>此命令返回unauthorized的错误。</p>
 </div>
 </li>
 <li>
-<p>Attempt to use the <code>default</code> user identity to assign <code>bob_standard</code> the <code>owner</code> role by running the following command:</p>
+<p>尝试通过运行以下命令使用默认用户身份为bob_standard分配owner角色。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx --identity default canister --wallet=$(dfx --identity default identity get-wallet) call access_hello assign_role "(principal \"$BOB_ID\", opt variant{owner})"</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This command fails because users cannot be assigned the <code>owner</code> role.</p>
+<p>该命令失败，因为无法为用户分配owner角色。</p>
 </div>
 </li>
 <li>
-<p>Call the <code>greet</code> function using the <code>bob_standard</code> user identity by running the following command:</p>
+<p>通过运行以下命令，使用bob_standard用户身份调用greet函数。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx --identity bob_standard canister --no-wallet call access_hello greet "Bob"</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following:</p>
+<p>输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1386,29 +1365,28 @@ Created identity: "bob_standard".</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_set_the_user_identity_for_multiple_commands"><a class="anchor" href="#_set_the_user_identity_for_multiple_commands"></a>Set the user identity for multiple commands</h2>
+<h2 id="_为多个命令设置用户识别码"><a class="anchor" href="#_为多个命令设置用户识别码"></a>为多个命令设置用户识别码</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>So far, you have seen how to create and switch between user identities for individual commands.
-You can also specify a user identity you want to use, then run multiple commands in the context of that user identity.</p>
+<p>到目前为止，您已经了解了如何为单个命令创建用户身份并在用户身份之间切换。 您还可以指定要使用的用户身份，然后在该用户身份的上下文中运行多个命令。</p>
 </div>
 <div class="paragraph">
-<p>To run multiple commands under one user identity:</p>
+<p>以一个用户身份运行多个命令：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Check that you are still in your project directory, if needed.</p>
+<p>进入项目目录。</p>
 </li>
 <li>
-<p>List the user identities currently available by running the following command:</p>
+<p>通过运行以下命令列出当前可用的用户身份。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx identity list</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The command displays output similar to the following with an asterisk indicating the currently-active user identity.</p>
+<p>该命令显示的输出类似于以下内容，带有星号的为当前活动用户。</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1419,18 +1397,18 @@ ic_admin</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In this example, the <code>default</code> user identity is used unless you explicitly select a different identity.</p>
+<p>在此示例中，除非您明确选择其他身份，否则将使用默认用户身份。</p>
 </div>
 </li>
 <li>
-<p>Select a new user identity from the list and make it the active user context by running a command similar to the following:</p>
+<p>从列表中选择一个新的用户身份，并通过运行类似于以下命令的命令将其设置为活动用户。</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx identity use ic_admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>+ The command displays output similar to the following:</p>
+<p>+ 输出类似以下内容：</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1438,10 +1416,10 @@ ic_admin</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If you rerun the <code>dfx identity list</code> command, the <code>ic_admin</code> user identity displays an asterisk to indicate it is the currently active user context.</p>
+<p>如果重新运行dfx identity list命令，则ic_admin用户身份将显示一个星号，以指示它是当前活动的用户。</p>
 </div>
 <div class="paragraph">
-<p>You can now run commands using the selected user identity without specifying <code>--identity</code> on the command-line.</p>
+<p>现在，您可以使用选定的用户身份运行命令，而无需在命令行上指定&#8212;&#8203;identity。</p>
 </div>
 </li>
 </ol>
@@ -1449,21 +1427,21 @@ ic_admin</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_stop_the_local_canister_execution_environment"><a class="anchor" href="#_stop_the_local_canister_execution_environment"></a>Stop the local canister execution environment</h2>
+<h2 id="_关闭本地网络"><a class="anchor" href="#_关闭本地网络"></a>关闭本地网络</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you finish experimenting with the dapp and using identities, you can stop the local canister execution environment so that it doesn’t continue running in the background.</p>
+<p>完成程序的测试后，可以关闭ICP网络。</p>
 </div>
 <div class="paragraph">
-<p>To stop the local canister execution environment:</p>
+<p>关闭步骤：</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In the terminal that displays network operations, press Control-C to interrupt the local network process.</p>
+<p>打开显示网络活动的命令行，摁下Control-C命令终止本地网络进程。</p>
 </li>
 <li>
-<p>Stop the local canister execution environment by running the following command:</p>
+<p>运行下面的命令终止网络</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">dfx stop</code></pre>
@@ -1475,10 +1453,10 @@ ic_admin</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_want_to_learn_more"><a class="anchor" href="#_want_to_learn_more"></a>Want to learn more?</h2>
+<h2 id="_更多内容"><a class="anchor" href="#_更多内容"></a>更多内容</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you are looking for more information about identity and authentication, check out the following related resources:</p>
+<p>如果您正在寻找有关身份和身份验证的更多信息，请查看以下相关资源：:</p>
 </div>
 <div class="ulist">
 <ul>
